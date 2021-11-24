@@ -44,7 +44,7 @@ export default function Simulator() {
     }))
     setViewListStyle({
       top,
-      left: rect.left - 320
+      left: rect.left - 330
     })
   }, [])
 
@@ -124,7 +124,7 @@ export default function Simulator() {
           <div className="canvas-wrapper">
             <Render width={device.width} height={device.height}/>
           </div>
-          <Subline />
+          <Subline width={device.width} height={device.height}/>
           
           <Display />
         </div>
