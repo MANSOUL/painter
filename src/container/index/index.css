@@ -1,0 +1,12 @@
+.layout {
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+}
+.layout__left {
+  width: 100%;
+  flex-shrink: 0;
+}
+.layout__right {
+  flex-grow: 1;
+}
