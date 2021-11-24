@@ -23,12 +23,13 @@ export default function Simulator() {
   const [device, setDevice] = useState({
     width: 269,
     height: 397
-  })
-  const [ratio, setRatio] = useState(1)
+  }) // 画布尺寸
+  const [ratio, setRatio] = useState(1) // 缩放比例
   const [attrEditor, setAttrEditor] = useState({
     ...initialAttrEditor
-  })
-  const [viewListStyle, setViewListStyle] = useState({})
+  }) // 属性编辑
+  const [viewListStyle, setViewListStyle] = useState({}) // view 列表
+  const [activeViewId, setActiveViewId] = useState('')
 
   const memorizedCallback = useCallback(() => {
     const rect = refDeviceWrapper.current.getBoundingClientRect()
@@ -95,6 +96,7 @@ export default function Simulator() {
         </div>
       </div>
       <editContext.Provider value={{
+          activeViewId,
           setViewCss: (id, css) => palette.setValue(setViewCss(palette.value, id, css)),
           setViewProps: (id, props) => palette.setValue(setViewProps(palette.value, id, props)),
           setAttrEditor: (visible = false, id, type, defaultValue, pos) => {
@@ -109,7 +111,8 @@ export default function Simulator() {
               type,
               defaultValue
             })
-          }
+          },
+          setActiveViewId: id => setActiveViewId(id)
         }}>
         <div 
           className="device" 

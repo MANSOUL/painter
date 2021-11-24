@@ -40,6 +40,7 @@ export default function Base({
       ...active,
       highlight: true
     })
+    edit.setActiveViewId(id)
   }
 
   const handleMouseDown = e => {
@@ -94,6 +95,7 @@ export default function Base({
       highlight: false,
       active: false
     })
+    edit.setActiveViewId('')
     mouse.current = {
       lock: false,
       prevX: e.clientX,
@@ -108,7 +110,7 @@ export default function Base({
   return (
     <div 
       className={
-        clsx('c_p_base', active.highlight && 'c_p_base--highlight', active.active && 'c_p_base--active')
+        clsx('c_p_base', edit.activeViewId === id && 'c_p_base--highlight', active.active && 'c_p_base--active')
       }
       style={css}
       onMouseEnter={handleMouseEnter}
