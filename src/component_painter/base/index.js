@@ -5,6 +5,8 @@ import editContext from '../../context/edit'
 
 export const VIEW_TYPE_IMAGE = 'image'
 export const VIEW_TYPE_TEXT = 'text'
+export const VIEW_TYPE_QRCODE = 'qrcode'
+export const VIEW_TYPE_RECT = 'rect'
 
 export default function Base({
   id,

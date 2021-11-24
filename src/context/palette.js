@@ -5,18 +5,6 @@ export const paletteDefault = {
   height: 397,
   background: '#f1f1f1',
   views: [
-    // {
-    //   id: 'one',
-    //   type: 'qrcode',
-    //   content: '12345',
-    //   css: {
-    //     width: '269px',
-    //     left: '50%',
-    //     align: 'center',
-    //     top: '0',
-    //     height: '269px',
-    //   },
-    // },
     {
       id: 'image-1',
       type: 'image',
@@ -49,7 +37,30 @@ export const paletteDefault = {
         padding: 1,
         textAlign: 'left'
       },
-    }
+    },
+    {
+      id: 'qrcode-1',
+      type: 'qrcode',
+      content: '12345',
+      css: {
+        width: 100,
+        height: 100,
+        top: 250,
+        left: '50%',
+        // align: 'center',
+      },
+    },
+    {
+      id: 'rect-1',
+      type: 'rect',
+      css: {
+        width: 100,
+        height: 50,
+        top: 350,
+        left: 10,
+        color: 'radial-gradient(rgba(0, 0, 0, 0) 5%, #0ff 15%, #f0f 60%)'
+      },
+    },
   ]
 }
 

@@ -49,10 +49,11 @@ export function setViewProps(palette, id, props) {
 }
 
 export function addUnit(palette, unit = 'px') {
-  const unitAttr = ['width', 'height', 'top', 'left', 'right', 'bottom']
+  const unitAttr = ['width', 'height', 'top', 'left', 'right', 'bottom', 'borderRadius', 'borderWidth']
   const handle = obj => {
     for (let key in obj) {
       if (obj.hasOwnProperty(key) && unitAttr.includes(key)) {
+        if (typeof obj[key] === 'string' && obj[key].indexOf('%') > -1) continue
         obj[key] = `${obj[key]}${unit}`
       }
     }

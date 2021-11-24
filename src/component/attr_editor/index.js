@@ -7,9 +7,9 @@
  */
 import './index.less'
 import { cloneDeep } from 'lodash'
-import { useContext, useRef } from 'react'
+import { useContext, useRef, useState, useCallback, useEffect } from 'react'
 import editContext from '../../context/edit'
-import { VIEW_TYPE_IMAGE, VIEW_TYPE_TEXT } from '../../component_painter/base'
+import { VIEW_TYPE_IMAGE, VIEW_TYPE_TEXT, VIEW_TYPE_QRCODE, VIEW_TYPE_RECT } from '../../component_painter/base'
 
 const numberAttr = [
   'width',
@@ -27,30 +27,36 @@ const validateValue = (value, defaultValue, propType, viewType) => {
   return Number(value)
 }
 
-function FieldInput({ label, value, onChange }) {
+function FieldInput({ label, value, onChange, desc = ''}) {
   return (
     <div className="field-wrapper">
       <label className="field">
         <span className="field__label">{label}</span>
-        <input
-          className="field__input"
-          type="text"
-          defaultValue={value}
-          onChange={onChange}
-        />
+        <div className="field__box">
+          <input
+            className="field__input"
+            type="text"
+            value={value || ''}
+            onChange={onChange}
+          />
+          <p className="field__desc">{desc}</p>
+        </div>
       </label>
     </div>
   )
 }
 
-function FieldSelect({ children, label, value, onChange }) {
+function FieldSelect({ children, label, value, onChange, desc = '' }) {
   return (
     <div className="field-wrapper">
       <label className="field">
         <span className="field__label">{label}</span>
-        <select className="field__input" value={value} onChange={onChange}>
-          {children}
-        </select>
+        <div className="field__box">
+          <select className="field__input" value={value} onChange={onChange}>
+            {children}
+          </select>
+          <p className="field__desc">{desc}</p>
+        </div>
       </label>
     </div>
   )
@@ -64,16 +70,34 @@ export default function AttrEditor({
   css = {},
 }) {
   const edit = useContext(editContext)
-  const refValue = useRef(cloneDeep(defaultValue))
-  const refViewId = useRef(viewId)
-  if (viewId !== refViewId.current) {
-    refValue.current = defaultValue
-    refViewId.current = viewId
-  }
-  const value = refValue.current
+  const [value, setValue] = useState(cloneDeep(defaultValue))
   const viewCss = value.css || {}
+
+  useEffect(() => {
+    setValue(cloneDeep(defaultValue))
+  }, [defaultValue])
   
+  const handleSetValue = useCallback((attr, attrValue) => {
+    setValue((value) => ({
+      ...value,
+      [attr]: attrValue
+    }))
+  }, [])
+
+  const handleSetCss = useCallback((attr, attrValue) => {
+    setValue((value) => {
+      console.log('editing:', value)
+      return {
+      ...value,
+      css: {
+        ...value.css,
+        [attr]: attrValue
+      }
+    }})
+  }, [])
+
   const handleApply = () => {
+    console.log('edited:', value, viewCss)
     edit.setViewProps(viewId, {
       ...value,
       css: {
@@ -96,8 +120,8 @@ export default function AttrEditor({
         key={viewId + '0'}
         label="宽度"
         value={viewCss.width}
-        onChange={(e) =>
-          (viewCss.width = validateValue(
+        onChange={
+          (e) => handleSetCss('width', validateValue(
             e.target.value,
             viewCss.width, 'width'
           ))
@@ -107,8 +131,8 @@ export default function AttrEditor({
         key={viewId + '1'}
         label="高度"
         value={viewCss.height}
-        onChange={(e) =>
-          (viewCss.height = validateValue(
+        onChange={
+          (e) => handleSetCss('height', validateValue(
             e.target.value, viewCss.height, 'height'
           ))
         }
@@ -117,8 +141,8 @@ export default function AttrEditor({
         key={viewId + '2'}
         label="距上"
         value={viewCss.top}
-        onChange={(e) =>
-          (viewCss.top = validateValue(
+        onChange={
+          (e) => handleSetCss('top', validateValue(
             e.target.value, viewCss.top, 'top'
           ))
         }
@@ -128,11 +152,74 @@ export default function AttrEditor({
         label="距左"
         value={viewCss.left}
         onChange={(e) =>
-          (viewCss.left = validateValue(
+          handleSetCss('left', validateValue(
             e.target.value, viewCss.left, 'left'
           ))
         }
       />
+      {/* 公共属性 */}
+      <FieldInput
+        key={viewId + '17'}
+        label="旋转"
+        value={viewCss.rotate}
+        onChange={(e) =>
+          handleSetCss('rotate', validateValue(
+            e.target.value, viewCss.rotate, 'rotate'
+          ))
+        }
+      />
+      <FieldInput
+        key={viewId + '18'}
+        label="圆角"
+        value={viewCss.borderRadius}
+        onChange={(e) =>
+          handleSetCss('borderRadius', validateValue(
+            e.target.value, viewCss.borderRadius, 'borderRadius'
+          ))
+        }
+      />
+      <FieldInput
+        key={viewId + '19'}
+        label="边框宽度"
+        value={viewCss.borderWidth}
+        onChange={(e) =>
+          handleSetCss('borderWidth', validateValue(
+            e.target.value, viewCss.borderWidth, 'borderWidth'
+          ))
+        }
+      />
+      <FieldInput
+        key={viewId + '20'}
+        label="边框颜色"
+        value={viewCss.borderColor}
+        onChange={(e) =>
+          handleSetCss('borderColor', validateValue(
+            e.target.value, viewCss.borderColor, 'borderColor'
+          ))
+        }
+      />
+      <FieldSelect
+          key={viewId + '21'}
+          label="边框样式"
+          value={viewCss.borderStyle}
+          onChange={(e) => handleSetCss('borderStyle', e.target.value)}
+        >
+        <option value="solid">solid</option>
+        <option value="dashed">dashed</option>
+        <option value="dotted">dotted</option>
+      </FieldSelect>
+      <FieldInput
+        key={viewId + '22'}
+        label="阴影"
+        value={viewCss.shadow}
+        desc="示例: 5px 5px 5px #aaa"
+        onChange={(e) =>
+          handleSetCss('shadow', validateValue(
+            e.target.value, viewCss.shadow, 'shadow'
+          ))
+        }
+      />
+      {/* end 公共属性 */}
       {viewType === VIEW_TYPE_IMAGE ? (
         <FieldInput
           key={viewId + '4'}
@@ -146,7 +233,7 @@ export default function AttrEditor({
           key={viewId + '5'}
           label="模式"
           value={viewCss.mode}
-          onChange={(e) => (viewCss.mode = e.target.value)}
+          onChange={(e) => handleSetCss('mode', e.target.value)}
         >
           {' '}
           <option value="aspectFill">aspectFill</option>
@@ -159,7 +246,7 @@ export default function AttrEditor({
           label="字体大小"
           value={viewCss.fontSize}
           onChange={(e) =>
-            (viewCss.fontSize = validateValue(
+            handleSetCss('fontSize', validateValue(
               e.target.value, viewCss.fontSize, 'fontSize'
             ))
           }
@@ -171,7 +258,7 @@ export default function AttrEditor({
           label="字体颜色"
           value={viewCss.color}
           onChange={(e) =>
-            (viewCss.color = validateValue(
+            handleSetCss('color', validateValue(
               e.target.value, viewCss.color, 'color'
             ))
           }
@@ -183,7 +270,7 @@ export default function AttrEditor({
           label="最大行数"
           value={viewCss.maxLines}
           onChange={(e) =>
-            (viewCss.maxLines = validateValue(
+            handleSetCss('maxLines', validateValue(
               e.target.value, viewCss.maxLines, 'maxLines'
             ))
           }
@@ -194,7 +281,7 @@ export default function AttrEditor({
           key={viewId + '9'}
           label="字体粗细"
           value={viewCss.fontWeight}
-          onChange={(e) => (viewCss.fontWeight = e.target.value)}
+          onChange={(e) => handleSetCss('fontWeight', e.target.value)}
         >
           <option value="100">100</option>
           <option value="200">200</option>
@@ -212,7 +299,7 @@ export default function AttrEditor({
           key={viewId + '10'}
           label="文本修饰"
           value={viewCss.textDecoration}
-          onChange={(e) => (viewCss.textDecoration = e.target.value)}
+          onChange={(e) => handleSetCss('textDecoration', e.target.value)}
         >
           <option value="none">无</option>
           <option value="underline">underline</option>
@@ -225,7 +312,7 @@ export default function AttrEditor({
           key={viewId + '11'}
           label="文本样式"
           value={viewCss.textStyle}
-          onChange={(e) => (viewCss.textStyle = e.target.value)}
+          onChange={(e) => handleSetCss('textStyle', e.target.value)}
         >
           <option value="fill">填充样式</option>
           <option value="stroke">镂空样式</option>
@@ -237,7 +324,7 @@ export default function AttrEditor({
           label="背景颜色"
           value={viewCss.background}
           onChange={(e) =>
-            (viewCss.background = validateValue(
+            handleSetCss('background', validateValue(
               e.target.value, viewCss.background, 'background'
             ))
           }
@@ -249,7 +336,7 @@ export default function AttrEditor({
           label="间距"
           value={viewCss.padding}
           onChange={(e) =>
-            (viewCss.padding = validateValue(
+            handleSetCss('padding', validateValue(
               e.target.value, viewCss.padding, 'padding'
             ))
           }
@@ -260,7 +347,7 @@ export default function AttrEditor({
           key={viewId + '14'}
           label="对齐方式"
           value={viewCss.textAlign}
-          onChange={(e) => (viewCss.textAlign = e.target.value)}
+          onChange={(e) => handleSetCss('textAlign', e.target.value)}
         >
           <option value="left">左对齐</option>
           <option value="center">居中对齐</option>
@@ -273,8 +360,32 @@ export default function AttrEditor({
           label="文本"
           value={value.text}
           onChange={(e) =>
-            (value.text = validateValue(
+            handleSetValue('text', validateValue(
               e.target.value, value.text, 'text'
+            ))
+          }
+        />
+      ) : null}
+      {viewType === VIEW_TYPE_QRCODE ? (
+        <FieldInput
+          key={viewId + '16'}
+          label="内容"
+          value={value.content}
+          onChange={(e) =>
+            handleSetValue('content', validateValue(
+              e.target.value, value.content, 'content'
+            ))
+          }
+        />
+      ) : null}
+      {viewType === VIEW_TYPE_RECT ? (
+        <FieldInput
+          key={viewId + '16'}
+          label="颜色"
+          value={viewCss.color}
+          onChange={(e) =>
+            handleSetCss('color', validateValue(
+              e.target.value, value.color, 'color'
             ))
           }
         />
