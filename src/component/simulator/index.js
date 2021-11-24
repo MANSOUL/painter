@@ -4,6 +4,7 @@ import Render from '../render'
 import Subline from '../subline'
 import Display from '../display'
 import AttrEditor from '../attr_editor'
+import ViewList from '../view_list'
 import { setViewCss, setViewProps, setRootStyle } from '../../core/paletteTool'
 import editContext from '../../context/edit'
 import paletteContext from '../../context/palette'
@@ -27,6 +28,7 @@ export default function Simulator() {
   const [attrEditor, setAttrEditor] = useState({
     ...initialAttrEditor
   })
+  const [viewListStyle, setViewListStyle] = useState({})
 
   const memorizedCallback = useCallback(() => {
     const rect = refDeviceWrapper.current.getBoundingClientRect()
@@ -39,6 +41,10 @@ export default function Simulator() {
         left
       }
     }))
+    setViewListStyle({
+      top,
+      left: rect.left - 320
+    })
   }, [])
 
   useEffect(() => {
@@ -120,6 +126,7 @@ export default function Simulator() {
           <Display />
         </div>
         {/* View 列表 */}
+        <ViewList css={viewListStyle}/>
         {/* 属性编辑器 */}
         <AttrEditor
           viewId={attrEditor.id}
