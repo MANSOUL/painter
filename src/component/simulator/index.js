@@ -4,7 +4,7 @@ import Render from '../render'
 import Subline from '../subline'
 import Display from '../display'
 import AttrEditor from '../attr_editor'
-import { setViewCss, setViewProps } from '../../core/paletteTool'
+import { setViewCss, setViewProps, setRootStyle } from '../../core/paletteTool'
 import editContext from '../../context/edit'
 import paletteContext from '../../context/palette'
 
@@ -53,11 +53,17 @@ export default function Simulator() {
 
   const handleDeviceChange = (type, value) => {
     const regNumber = /^\d+\.?\d*$/
-    if (!regNumber.test(value)) return
+    if (!regNumber.test(value) && value !== '') return
+    if (!value) value = 0
     setDevice({
       ...device,
       [type]: Number(value)
     })
+    setTimeout(() => {
+      palette.setValue(setRootStyle(palette.value, {
+        [type]: Number(value)
+      }))
+    }, 0)
   }
 
   return (

@@ -14,13 +14,17 @@ function getViewByIndex(palette, id) {
 }
 
 export function setRootStyle(palette, {
+  width = palette.width,
+  height = palette.height,
   top = palette.top, 
   left = palette.left, 
   background = palette.background
 }) {
-  palette.top = top
-  palette.left = left
-  palette.background = background
+  width && (palette.width = width)
+  height && (palette.height = height)
+  top && (palette.top = top)
+  left && (palette.left = left)
+  background && (palette.background = background)
   return palette
 }
 
