@@ -1,9 +1,17 @@
+/*
+ * @Author: kuanggf
+ * @Date: 2021-11-24 14:16:57
+ * @LastEditors: kuanggf
+ * @LastEditTime: 2021-11-25 10:23:46
+ * @Description: file content
+ */
 import './index.less'
-import { useContext } from 'react'
+import { useContext, useCallback } from 'react'
 import clsx from 'clsx'
 import paletteContext from '../../context/palette'
 import { VIEW_TYPE_IMAGE, VIEW_TYPE_TEXT, VIEW_TYPE_QRCODE, VIEW_TYPE_RECT } from '../../component_painter/base'
 import editContext from '../../context/edit'
+import { insertView } from '../../core/paletteTool'
 
 const TYPE_MAP = {
   [VIEW_TYPE_IMAGE]: '图片',
@@ -11,7 +19,6 @@ const TYPE_MAP = {
   [VIEW_TYPE_QRCODE]: '二维码',
   [VIEW_TYPE_RECT]: '矩形',
 }
-
 
 function ViewItem({ item }) {
   const edit = useContext(editContext)
@@ -49,6 +56,14 @@ export default function ViewList({
   css = {},
 }) {
   const palette = useContext(paletteContext)
+  const edit = useContext(editContext)
+
+  const memorized = useCallback(type => {
+    const config = insertView(palette.value, type)
+    const view = config.view
+    edit.setPalette(config.palette)
+    edit.setAttrEditor(true, view.id, view.type, view)
+  }, [palette.value, edit])
 
   return (
     <div style={css} className="view-list">
@@ -56,6 +71,18 @@ export default function ViewList({
         {palette.value.views?.map((item, index) => (
           <ViewItem key={item.id || index} item={item}/>
         ))}
+        <div
+          className="view-list-item">
+          <div className="view-list-item__title">
+            新增
+          </div>
+          <div className="view-list-item__cards">
+            <div className="view-list-item__card" onClick={() => memorized(VIEW_TYPE_IMAGE)}>图片</div>
+            <div className="view-list-item__card" onClick={() => memorized(VIEW_TYPE_TEXT)}>文本</div>
+            <div className="view-list-item__card" onClick={() => memorized(VIEW_TYPE_QRCODE)}>二维码</div>
+            <div className="view-list-item__card" onClick={() => memorized(VIEW_TYPE_RECT)}>矩形</div>
+          </div>
+        </div>
       </div>
       <div className="view-list__footer">
       </div>

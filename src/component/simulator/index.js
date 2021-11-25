@@ -46,17 +46,14 @@ export default function Simulator() {
       top,
       left: rect.left - 330
     })
-  }, [])
-
-  useEffect(() => {
-    const handleResize = () => memorizedCallback()
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
+  }, [device.width])
 
   useEffect(() => {
     memorizedCallback()
-  }, [device])
+    const handleResize = () => memorizedCallback()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [memorizedCallback])
 
   const handleDeviceChange = (type, value) => {
     const regNumber = /^\d+\.?\d*$/
@@ -99,11 +96,13 @@ export default function Simulator() {
           activeViewId,
           setViewCss: (id, css) => palette.setValue(setViewCss(palette.value, id, css)),
           setViewProps: (id, props) => palette.setValue(setViewProps(palette.value, id, props)),
+          setPalette: (value) => palette.setValue(value),
           setAttrEditor: (visible = false, id, type, defaultValue, pos) => {
             if (!visible) {
               setAttrEditor({ ...initialAttrEditor, css: attrEditor.css })
               return
             }
+            console.log('enter')
             setAttrEditor({
               ...attrEditor,
               visible,

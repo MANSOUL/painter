@@ -43,6 +43,31 @@
   &--highlight {
     border-color: #acf;
   }
+  &__title {
+    border-bottom: 1px solid #ccc;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    padding: 6px 0;
+  }
+  &__cards {
+    display: flex;
+  }
+  &__card {
+    width: 25%;
+    flex-shrink: 0;
+    text-align: center;
+    height: 100px;
+    line-height: 100px;
+    &:hover {
+      background-color: #acf;
+      color: #fff;
+      font-weight: bold;
+    }
+    // &:not(:last-child) {
+    //   border-right: 1px solid #ccc;
+    // }
+  }
   &__content {
     padding: 10px;
     border-bottom: 1px solid #ccc;
