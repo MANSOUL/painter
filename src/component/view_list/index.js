@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2021-11-24 14:16:57
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-02 11:29:53
+ * @LastEditTime: 2021-12-02 11:50:44
  * @Description: file content
  */
 import './index.less'
@@ -35,6 +35,11 @@ function ViewItem({ item, onRemoveView }) {
     edit.setActiveViewId('')
   }
 
+  const handleRemove = (e) => {
+    e.stopPropagation()
+    onRemoveView(item.id)
+  }
+
   return (
     <div 
       onMouseEnter={handleMouseEnter}
@@ -46,7 +51,7 @@ function ViewItem({ item, onRemoveView }) {
         <p>id: {item.id}</p>
       </div>
       <div className="view-list-item__op">
-        <button className="view-list-item__button" onClick={() => onRemoveView(item.id)}>移除</button>
+        <button className="view-list-item__button" onClick={handleRemove}>移除</button>
       </div>
     </div>
   )
@@ -61,6 +66,7 @@ export default function ViewList({
   const memorized = useCallback(type => {
     const config = insertView(palette.value, type)
     const view = config.view
+    edit.setActiveViewId(view.id)
     edit.setPalette(config.palette)
     edit.setAttrEditor(true, view.id, view.type, view)
   }, [palette.value, edit])
@@ -68,6 +74,7 @@ export default function ViewList({
   const handleRemoveViewMemorized = useCallback(id => {
     const palatteValue = removeView(palette.value, id)
     edit.setPalette(palatteValue)
+    edit.setAttrEditor(false)
   }, [palette.value, edit])
 
   return (

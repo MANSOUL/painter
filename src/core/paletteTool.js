@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2021-11-03 14:19:52
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-02 11:24:18
+ * @LastEditTime: 2021-12-02 11:37:59
  * @Description: file content
  */
 import { cloneDeep } from 'lodash'
@@ -68,7 +68,7 @@ export function getViewById(palette, id) {
   return palette.views.find((item) => item.id === id)
 }
 
-function getViewByIndex(palette, id) {
+export function getViewByIndex(palette, id) {
   return palette.views.findIndex((item) => item.id === id)
 }
 

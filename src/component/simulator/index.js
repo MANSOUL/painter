@@ -5,7 +5,7 @@ import Subline from '../subline'
 import Display from '../display'
 import AttrEditor from '../attr_editor'
 import ViewList from '../view_list'
-import { setViewCss, setViewProps, setRootStyle } from '../../core/paletteTool'
+import { setViewCss, setViewProps, setRootStyle, getViewByIndex } from '../../core/paletteTool'
 import editContext from '../../context/edit'
 import paletteContext from '../../context/palette'
 
@@ -70,6 +70,7 @@ export default function Simulator() {
     }, 0)
   }
 
+  console.log('attrvisible:', attrEditor.visible)
   return (
     <div className="simulator">
       <div className="device-switch">
@@ -102,7 +103,6 @@ export default function Simulator() {
               setAttrEditor({ ...initialAttrEditor, css: attrEditor.css })
               return
             }
-            console.log('enter')
             setAttrEditor({
               ...attrEditor,
               visible,

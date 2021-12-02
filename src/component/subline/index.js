@@ -1,10 +1,16 @@
+/*
+ * @Author: kuanggf
+ * @Date: 2021-11-02 11:43:45
+ * @LastEditors: kuanggf
+ * @LastEditTime: 2021-12-02 11:47:45
+ * @Description: file content
+ */
 import './index.less'
 
 export default function Subline({
   width = 0,
   height = 0
 }) {
-  console.log('width:', width)
   return (
     <div className="subline">
       <div className="x-axis">
