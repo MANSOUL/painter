@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2021-11-03 14:19:52
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-11-25 10:20:16
+ * @LastEditTime: 2021-12-02 11:24:18
  * @Description: file content
  */
 import { cloneDeep } from 'lodash'
@@ -121,6 +121,12 @@ export function insertView(palette, type) {
 
   palette.views.push(view)
   return { palette, view }
+}
+
+export function removeView(palette, id) {
+  const index = getViewByIndex(palette, id)
+  palette.views.splice(index, 1)
+  return palette
 }
 
 export function addUnit(palette, unit = 'px') {

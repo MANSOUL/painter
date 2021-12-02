@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2021-11-24 14:16:57
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-11-25 10:23:46
+ * @LastEditTime: 2021-12-02 11:29:53
  * @Description: file content
  */
 import './index.less'
@@ -11,7 +11,7 @@ import clsx from 'clsx'
 import paletteContext from '../../context/palette'
 import { VIEW_TYPE_IMAGE, VIEW_TYPE_TEXT, VIEW_TYPE_QRCODE, VIEW_TYPE_RECT } from '../../component_painter/base'
 import editContext from '../../context/edit'
-import { insertView } from '../../core/paletteTool'
+import { insertView, removeView } from '../../core/paletteTool'
 
 const TYPE_MAP = {
   [VIEW_TYPE_IMAGE]: '图片',
@@ -20,7 +20,7 @@ const TYPE_MAP = {
   [VIEW_TYPE_RECT]: '矩形',
 }
 
-function ViewItem({ item }) {
+function ViewItem({ item, onRemoveView }) {
   const edit = useContext(editContext)
 
   const revokeSetAttr = (id, type, config) => {
@@ -46,7 +46,7 @@ function ViewItem({ item }) {
         <p>id: {item.id}</p>
       </div>
       <div className="view-list-item__op">
-        <button className="view-list-item__button">移除</button>
+        <button className="view-list-item__button" onClick={() => onRemoveView(item.id)}>移除</button>
       </div>
     </div>
   )
@@ -65,11 +65,16 @@ export default function ViewList({
     edit.setAttrEditor(true, view.id, view.type, view)
   }, [palette.value, edit])
 
+  const handleRemoveViewMemorized = useCallback(id => {
+    const palatteValue = removeView(palette.value, id)
+    edit.setPalette(palatteValue)
+  }, [palette.value, edit])
+
   return (
     <div style={css} className="view-list">
       <div className="view-list__scroller">
         {palette.value.views?.map((item, index) => (
-          <ViewItem key={item.id || index} item={item}/>
+          <ViewItem key={item.id || index} item={item} onRemoveView={handleRemoveViewMemorized}/>
         ))}
         <div
           className="view-list-item">
