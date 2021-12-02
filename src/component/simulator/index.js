@@ -70,7 +70,6 @@ export default function Simulator() {
     }, 0)
   }
 
-  console.log('attrvisible:', attrEditor.visible)
   return (
     <div className="simulator">
       <div className="device-switch">
