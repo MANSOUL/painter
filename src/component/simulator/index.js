@@ -5,7 +5,7 @@ import Subline from '../subline'
 import Display from '../display'
 import AttrEditor from '../attr_editor'
 import ViewList from '../view_list'
-import { setViewCss, setViewProps, setRootStyle, getViewByIndex } from '../../core/paletteTool'
+import { setViewCss, setViewProps, setRootStyle, getViewByIndex, download } from '../../core/paletteTool'
 import editContext from '../../context/edit'
 import paletteContext from '../../context/palette'
 
@@ -70,8 +70,18 @@ export default function Simulator() {
     }, 0)
   }
 
+  const handleExport = () => {
+    console.log('download:', JSON.stringify(palette.value))
+    download(palette)
+  }
+
   return (
     <div className="simulator">
+      <div className="tools">
+        <button>导入</button>
+        <button onClick={handleExport}>导出</button>
+        <button>复制</button>
+      </div>
       <div className="device-switch">
         <div>
           <input 
@@ -85,7 +95,7 @@ export default function Simulator() {
             onChange={(e) => handleDeviceChange('height', e.target.value)}></input>
         </div>
         <div>
-          <select value={ratio} onChange={(e) => setRatio(e.target.value)}>
+          <select disabled value={ratio} onChange={(e) => setRatio(e.target.value)}>
             <option value={1}>100%</option>
             <option value={1.25}>125%</option>
             <option value={1.5}>150%</option>

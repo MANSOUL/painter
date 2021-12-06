@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2021-11-03 14:19:52
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-02 11:37:59
+ * @LastEditTime: 2021-12-06 11:57:48
  * @Description: file content
  */
 import { cloneDeep } from 'lodash'
@@ -153,4 +153,15 @@ export function addUnit(palette, unit = 'px') {
     handle(item.css)
   })
   return palette
+}
+
+export function download(palette) {
+  const $a = document.createElement('a')
+  const blob = new Blob([JSON.stringify(addUnit(cloneDeep(palette.value), 'rpx'))], {
+    type: 'application/json'
+  })
+  $a.download = `painter-${Date.now()}.json`
+  $a.href = URL.createObjectURL(blob)
+  const clickEvent = new MouseEvent('click')
+  $a.dispatchEvent(clickEvent)
 }
