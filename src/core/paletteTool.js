@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2021-11-03 14:19:52
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-06 11:57:48
+ * @LastEditTime: 2021-12-07 21:37:46
  * @Description: file content
  */
 import { cloneDeep } from 'lodash'
@@ -64,6 +64,9 @@ const DEFAULT_VIEWS = {
     },
   },
 }
+
+export const regNumber  = /^\d+$/
+
 export function getViewById(palette, id) {
   return palette.views.find((item) => item.id === id)
 }
@@ -143,7 +146,10 @@ export function addUnit(palette, unit = 'px') {
   const handle = (obj) => {
     for (let key in obj) {
       if (obj.hasOwnProperty(key) && unitAttr.includes(key)) {
-        if (typeof obj[key] === 'string' && obj[key].indexOf('%') > -1) continue
+        if (
+          (typeof obj[key] === 'string' && obj[key].indexOf('%') > -1) 
+          || !regNumber.test(obj[key])
+        ) continue
         obj[key] = `${obj[key]}${unit}`
       }
     }

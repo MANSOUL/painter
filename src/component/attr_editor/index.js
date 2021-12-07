@@ -2,14 +2,15 @@
  * @Author: kuanggf
  * @Date: 2021-11-04 15:03:49
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-11-11 15:24:02
+ * @LastEditTime: 2021-12-07 21:46:41
  * @Description: file content
  */
 import './index.less'
 import { cloneDeep } from 'lodash'
-import { useContext, useRef, useState, useCallback, useEffect } from 'react'
+import { useContext, useState, useCallback, useEffect } from 'react'
 import editContext from '../../context/edit'
 import { VIEW_TYPE_IMAGE, VIEW_TYPE_TEXT, VIEW_TYPE_QRCODE, VIEW_TYPE_RECT } from '../../component_painter/base'
+import { regNumber } from '../../core/paletteTool'
 
 const numberAttr = [
   'width',
@@ -23,7 +24,10 @@ const numberAttr = [
   'padding'
 ]
 const validateValue = (value, defaultValue, propType, viewType) => {
+  value = value.trim()
   if (!numberAttr.includes(propType)) return value
+  if (!value) return value
+  if (!regNumber.test(value)) return value
   return Number(value)
 }
 
@@ -87,13 +91,17 @@ export default function AttrEditor({
   const handleSetCss = useCallback((attr, attrValue) => {
     setValue((value) => {
       console.log('editing:', value)
-      return {
-      ...value,
-      css: {
-        ...value.css,
-        [attr]: attrValue
+      const css = {  ...value.css }
+      if (attrValue === '') {
+        delete css[attr]
+      } else {
+        css[attr] = attrValue
       }
-    }})
+      return {
+        ...value,
+        css
+      }
+    })
   }, [])
 
   const handleApply = () => {
@@ -120,6 +128,7 @@ export default function AttrEditor({
         key={viewId + '0'}
         label="宽度"
         value={viewCss.width}
+        desc="支持相对定位，示例: calc(id0.width + 10)"
         onChange={
           (e) => handleSetCss('width', validateValue(
             e.target.value,
@@ -131,6 +140,7 @@ export default function AttrEditor({
         key={viewId + '1'}
         label="高度"
         value={viewCss.height}
+        desc="支持相对定位，示例: calc(id0.width + 10)"
         onChange={
           (e) => handleSetCss('height', validateValue(
             e.target.value, viewCss.height, 'height'
@@ -141,6 +151,7 @@ export default function AttrEditor({
         key={viewId + '2'}
         label="距上"
         value={viewCss.top}
+        desc="支持相对定位，示例: calc(id0.top + 10)"
         onChange={
           (e) => handleSetCss('top', validateValue(
             e.target.value, viewCss.top, 'top'
@@ -151,6 +162,7 @@ export default function AttrEditor({
         key={viewId + '3'}
         label="距左"
         value={viewCss.left}
+        desc="支持相对定位，示例: calc(id0.left + id0.width + 10)"
         onChange={(e) =>
           handleSetCss('left', validateValue(
             e.target.value, viewCss.left, 'left'
