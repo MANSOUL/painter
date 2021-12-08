@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2021-11-04 15:03:49
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-07 21:46:41
+ * @LastEditTime: 2021-12-09 01:17:35
  * @Description: file content
  */
 import './index.less'
@@ -11,6 +11,7 @@ import { useContext, useState, useCallback, useEffect } from 'react'
 import editContext from '../../context/edit'
 import { VIEW_TYPE_IMAGE, VIEW_TYPE_TEXT, VIEW_TYPE_QRCODE, VIEW_TYPE_RECT } from '../../component_painter/base'
 import { regNumber } from '../../core/paletteTool'
+import usePaletteValue from '../../hooks/usePaletteValue'
 
 const numberAttr = [
   'width',
@@ -29,6 +30,82 @@ const validateValue = (value, defaultValue, propType, viewType) => {
   if (!value) return value
   if (!regNumber.test(value)) return value
   return Number(value)
+}
+
+const addRelativeToValue = (value, id) => {
+  value = value.trim().replace(/^calc\(|\)$/g, '')
+  const reg = /(?<!\.)(width|height|top|bottom|left|right)/g
+  return `calc(${value.replace(reg, `${id}.$1`)})`
+}
+
+function FieldRelative({
+  label,
+  value,
+  onChange,
+  desc = ''
+}) {
+  const paletteValue = usePaletteValue()
+  const [checked, setChecked] = useState(false)
+  const [relativeId, setRelativeId] = useState(paletteValue.views[0]?.id || '')
+  const views = paletteValue.views
+
+  const handleChange = e => {
+    let { value } = e.target
+
+    if (checked && relativeId) {
+      value = addRelativeToValue(value, relativeId)
+    }
+
+    onChange({
+      target:  {
+        value
+      }
+    })
+  }
+
+  const handleRelativeChange = e =>  {
+    setRelativeId(e.target.value)
+    onChange({
+      target: {
+        value: ''
+      }
+    })
+  }
+  
+  return (
+    <div className="field-wrapper">
+      <label className="field">
+        <span className="field__label">{label}</span>
+        <div className="field__box">
+          <input
+            className="field__input"
+            type="text"
+            value={value || ''}
+            onChange={handleChange}
+          />
+          {
+            views.length > 0 ? (
+              <p className="field__desc">
+                <label>
+                  <input type="radio" checked={checked} onChange={(e) => setChecked(e.target.value)}></input>相对布局
+                </label>
+                <br/>
+                {
+                  checked ? (
+                    <select value={relativeId} onChange={handleRelativeChange}>
+                      {
+                        views.map(item => (<option key={item.id}>{item.id}</option>))
+                      }
+                    </select>
+                  ) : null
+                }
+              </p>
+            ) : null
+          }
+        </div>
+      </label>
+    </div>
+  )
 }
 
 function FieldInput({ label, value, onChange, desc = ''}) {
@@ -124,7 +201,7 @@ export default function AttrEditor({
       }}
     >
       <div className="attr-editor__scroller">
-      <FieldInput
+      <FieldRelative
         key={viewId + '0'}
         label="宽度"
         value={viewCss.width}
@@ -136,7 +213,7 @@ export default function AttrEditor({
           ))
         }
       />
-      <FieldInput
+      <FieldRelative
         key={viewId + '1'}
         label="高度"
         value={viewCss.height}
@@ -147,7 +224,7 @@ export default function AttrEditor({
           ))
         }
       />
-      <FieldInput
+      <FieldRelative
         key={viewId + '2'}
         label="距上"
         value={viewCss.top}
@@ -158,7 +235,7 @@ export default function AttrEditor({
           ))
         }
       />
-      <FieldInput
+      <FieldRelative
         key={viewId + '3'}
         label="距左"
         value={viewCss.left}

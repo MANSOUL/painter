@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2021-12-07 20:35:30
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-07 21:27:44
+ * @LastEditTime: 2021-12-09 01:20:11
  * @Description: file content
  */
 import { createContext } from 'react'
@@ -13,7 +13,7 @@ export const paletteDefault = {
   background: '#f1f1f1',
   views: [
     {
-      id: 'image-1',
+      id: 'image1',
       type: 'image',
       url: 'https://images.unsplash.com/photo-1638809264876-63bf0a05f4c7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80',
       css: {
@@ -46,7 +46,7 @@ export const paletteDefault = {
       },
     },
     {
-      id: 'text-2',
+      id: 'text2',
       type: 'text',
       text: 'kg',
       css: {
@@ -67,7 +67,7 @@ export const paletteDefault = {
       },
     },
     {
-      id: 'qrcode-1',
+      id: 'qrcode1',
       type: 'qrcode',
       content: '12345',
       css: {
@@ -79,7 +79,7 @@ export const paletteDefault = {
       },
     },
     {
-      id: 'rect-1',
+      id: 'rect1',
       type: 'rect',
       css: {
         width: 100,
