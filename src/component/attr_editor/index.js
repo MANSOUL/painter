@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2021-11-04 15:03:49
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-09 09:46:00
+ * @LastEditTime: 2021-12-09 11:58:42
  * @Description: file content
  */
 import './index.less'
@@ -238,7 +238,7 @@ export default function AttrEditor({
           key={viewId + '4'}
           label="URL"
           value={value.url}
-          onChange={(e) => (value.url = e.target.value)}
+          onChange={(e) => handleSetValue('url', e.target.value)}
         />
       ) : null}
       {viewType === VIEW_TYPE_IMAGE ? (

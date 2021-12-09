@@ -13,7 +13,7 @@ export default function Base({
   type,
   config = {}
 }) {
-  const { top, left, bottom, right } = config.rect
+  const { top = 0, left = 0, bottom = 0, right = 0 } = (config.rect || {})
   const edit = useContext(editContext)
   const [ css, setCss ] = useState({
     top, 
@@ -31,7 +31,7 @@ export default function Base({
     prevY: 0
   })
   useEffect(() => {
-    const { top, left, bottom, right } = config.rect
+    const { top = 0, left = 0, bottom = 0, right = 0 } = (config.rect || {})
     setCss((css) => ({
       ...css,
       top, 
