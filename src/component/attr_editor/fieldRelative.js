@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2021-12-09 09:44:38
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-09 11:06:39
+ * @LastEditTime: 2021-12-09 17:04:45
  * @Description: file content
  */
 import './index.less'
@@ -12,14 +12,21 @@ import { usePaletteValue } from '../../hooks/usePalette'
 const isRelative = value => {
   value = `${value}`
   if (!value) return false
-  return value.indexOf('calc(') > -1
+  const ids = Array.from(new Set(getRelativeIds(value)))
+  return value.indexOf('calc(') > -1 && ids.length === 1
 }
 
-const getRelativeId = value => {
+const getRelativeIds = value => {
   value = `${value}`
   if (!value) return null
   const matches = value.match(/(\w+)(?=\.)/g)
-  if (matches) return matches[0]
+  if (matches) return matches
+  return []
+}
+
+const getRelativeId = value => {
+  const ids = getRelativeIds(value)
+  if (ids.length > 0) return ids[0]
   return null
 }
 
@@ -80,6 +87,14 @@ export default function FieldRelative({
     setRelativeId(e.target.value)
     setCurrentValue('')
   }
+
+  const handleToggleRelative = () => {
+    const next = !checked
+    if (!next) {
+      setCurrentValue('')
+    }
+    setChecked(next)
+  }
   
   return (
     <div className="field-wrapper">
@@ -98,7 +113,7 @@ export default function FieldRelative({
             views.length > 0 ? (
               <p className="field__desc">
                 <label>
-                  <input type="radio" checked={checked} onChange={(e) => setChecked(e.target.value)}></input>相对布局
+                  <input type="checkbox" checked={checked} onChange={handleToggleRelative}></input>相对布局
                 </label>
                 <br/>
                 {
