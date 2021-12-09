@@ -2,6 +2,8 @@ import './index.less'
 import { useState, useRef, useContext, useEffect } from 'react'
 import clsx from 'clsx'
 import editContext from '../../context/edit'
+import { usePaletteValue } from '../../hooks/usePalette'
+import { getViewById } from '../../core/paletteTool'
 
 export const VIEW_TYPE_IMAGE = 'image'
 export const VIEW_TYPE_TEXT = 'text'
@@ -14,6 +16,7 @@ export default function Base({
   config = {}
 }) {
   const { top = 0, left = 0, bottom = 0, right = 0 } = (config.rect || {})
+  const paletteValue = usePaletteValue()
   const edit = useContext(editContext)
   const [ css, setCss ] = useState({
     top, 
@@ -110,7 +113,7 @@ export default function Base({
   }
 
   const handleClick = () => {
-    edit.setAttrEditor(true, id, type, config)
+    edit.setAttrEditor(true, id, type, getViewById(paletteValue, id) || {})
   }
 
   return (
