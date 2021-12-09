@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2021-12-09 17:13:14
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-09 17:15:08
+ * @LastEditTime: 2021-12-09 18:04:33
  * @Description: file content
  */
 
@@ -14,6 +14,9 @@ const storage = {
   },
   get(name = '') {
     return JSON.parse(localStorage.getItem(`${KEY}${name}`))
+  },
+  all() {
+    return Object.keys(localStorage).map(item => item.replace(KEY, ''))
   }
 }
 

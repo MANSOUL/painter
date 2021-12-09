@@ -1,7 +1,14 @@
+/*
+ * @Author: kuanggf
+ * @Date: 2021-10-28 10:20:54
+ * @LastEditors: kuanggf
+ * @LastEditTime: 2021-12-09 17:43:27
+ * @Description: file content
+ */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './container/index';
+import App from './container/main';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(

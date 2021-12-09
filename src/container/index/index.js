@@ -2,17 +2,19 @@
  * @Author: kuanggf
  * @Date: 2021-12-09 09:42:42
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-09 11:02:57
+ * @LastEditTime: 2021-12-09 18:02:02
  * @Description: file content
  */
 import './index.css'
 import { useState } from 'react'
 import Simulator from '../../component/simulator'
-import Control from '../../component/control'
 import paletteContext, { paletteDefault } from '../../context/palette'
+import useProject from '../../hooks/useProject'
+import storage from '../../core/storage'
 
 export default function Index() {
-  const [ palette, setPalette ] = useState(paletteDefault)
+  const project = useProject()
+  const [ palette, setPalette ] = useState(storage.get(project.name) || paletteDefault)
   const [ pen, setPen ] = useState({})
   const handleSetPalette = (value) => {
     setPalette({...value})
