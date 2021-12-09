@@ -21,8 +21,8 @@ export default function Simulator() {
   const palette = useContext(paletteContext)
   const refDeviceWrapper = useRef(null)
   const [device, setDevice] = useState({
-    width: 269,
-    height: 397
+    width: 100,
+    height: 100
   }) // 画布尺寸
   const [ratio, setRatio] = useState(1) // 缩放比例
   const [attrEditor, setAttrEditor] = useState({
