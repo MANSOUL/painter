@@ -78,9 +78,9 @@ export default function Simulator() {
   return (
     <div className="simulator">
       <div className="tools">
-        <button>导入</button>
+        <button disabled>导入</button>
         <button onClick={handleExport}>导出</button>
-        <button>复制</button>
+        <button disabled>复制</button>
       </div>
       <div className="device-switch">
         <div>
