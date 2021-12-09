@@ -2,12 +2,12 @@
  * @Author: kuanggf
  * @Date: 2021-12-09 09:44:38
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-09 10:43:14
+ * @LastEditTime: 2021-12-09 11:06:39
  * @Description: file content
  */
 import './index.less'
 import { useEffect, useState } from 'react'
-import usePaletteValue from '../../hooks/usePaletteValue'
+import { usePaletteValue } from '../../hooks/usePalette'
 
 const isRelative = value => {
   value = `${value}`

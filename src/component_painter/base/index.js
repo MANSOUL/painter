@@ -13,10 +13,13 @@ export default function Base({
   type,
   config = {}
 }) {
-  const { width, height, top, left, bottom, right } = config.css
+  const { top, left, bottom, right } = config.rect
   const edit = useContext(editContext)
   const [ css, setCss ] = useState({
-    width, height, top, left, bottom, right
+    top, 
+    left, 
+    width: right - left, 
+    height: bottom - top
   })
   const [ active, setActive ] = useState({
     highlight: false,
@@ -28,10 +31,13 @@ export default function Base({
     prevY: 0
   })
   useEffect(() => {
-    const { width, height, top, left, bottom, right } = config.css
+    const { top, left, bottom, right } = config.rect
     setCss((css) => ({
       ...css,
-      width, height, top, left, bottom, right
+      top, 
+      left, 
+      width: right - left, 
+      height: bottom - top
     }))
   }, [config])
 
