@@ -1,13 +1,15 @@
 import './index.less'
-import { useState, useContext, useRef, useEffect, useCallback } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import Render from '../render'
 import Subline from '../subline'
 import Display from '../display'
 import AttrEditor from '../attr_editor'
 import ViewList from '../view_list'
-import { setViewCss, setViewProps, setRootStyle, getViewByIndex, download } from '../../core/paletteTool'
+import { setViewCss, setViewProps, setRootStyle, download } from '../../core/paletteTool'
 import editContext from '../../context/edit'
-import paletteContext from '../../context/palette'
+import storage from '../../core/storage'
+import { cloneDeep } from 'lodash'
+import usePalette from '../../hooks/usePalette'
 
 const initialAttrEditor = {
   visible: false,
@@ -18,7 +20,7 @@ const initialAttrEditor = {
 }
 
 export default function Simulator() {
-  const palette = useContext(paletteContext)
+  const palette = usePalette()
   const refDeviceWrapper = useRef(null)
   const [device, setDevice] = useState({
     width: 100,
@@ -75,11 +77,16 @@ export default function Simulator() {
     download(palette)
   }
 
+  const handleSaveToLocal = () => {
+    storage.set('', cloneDeep(palette.value))
+  }
+
   return (
     <div className="simulator">
       <div className="tools">
         <button disabled>导入</button>
         <button onClick={handleExport}>导出</button>
+        <button onClick={handleSaveToLocal}>暂存</button>
         <button disabled>复制</button>
       </div>
       <div className="device-switch">
