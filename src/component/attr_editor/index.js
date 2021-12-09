@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2021-11-04 15:03:49
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-09 11:58:42
+ * @LastEditTime: 2021-12-09 14:15:03
  * @Description: file content
  */
 import './index.less'
@@ -25,7 +25,7 @@ const numberAttr = [
   'padding'
 ]
 const validateValue = (value, defaultValue, propType, viewType) => {
-  value = value.trim()
+  // value = value.trim()
   if (!numberAttr.includes(propType)) return value
   if (!value) return value
   if (!regNumber.test(value)) return value
