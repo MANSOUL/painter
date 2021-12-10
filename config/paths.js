@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2021-10-29 15:17:00
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-10 15:11:26
+ * @LastEditTime: 2021-12-10 15:14:45
  * @Description: file content
  */
 'use strict';
@@ -25,7 +25,7 @@ const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 const publicUrlOrPath = getPublicUrlOrPath(
   process.env.NODE_ENV === 'development',
   require(resolveApp('package.json')).homepage,
-  process.env.PUBLIC_URL
+  './'
 );
 
 const buildPath = process.env.BUILD_PATH || 'docs';
