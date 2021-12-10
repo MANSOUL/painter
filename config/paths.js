@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2021-10-29 15:17:00
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-09 18:22:28
+ * @LastEditTime: 2021-12-10 14:46:40
  * @Description: file content
  */
 'use strict';
@@ -61,7 +61,7 @@ const resolveModule = (resolveFn, filePath) => {
 module.exports = {
   dotenv: resolveApp('.env'),
   appPath: resolveApp('.'),
-  appBuild: path.resolve(appDirectory, '../../mansoul.github.io'),
+  appBuild: resolveApp(buildPath),
   appPublic: resolveApp('public'),
   appHtml: resolveApp('public/index.html'),
   appIndexJs: resolveModule(resolveApp, 'src/index'),
