@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2021-11-03 14:19:52
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-10 16:15:26
+ * @LastEditTime: 2021-12-10 17:51:47
  * @Description: file content
  */
 import { cloneDeep } from 'lodash'
@@ -155,4 +155,33 @@ export function download(palette) {
   $a.href = URL.createObjectURL(blob)
   const clickEvent = new MouseEvent('click')
   $a.dispatchEvent(clickEvent)
+}
+
+export function downloadTemplate(palette) {
+  const pen = addUnit(cloneDeep(palette.value), 'rpx')
+  const template = cloneDeep(palette.template)
+
+  const keys = Object.keys(template)
+
+  keys.forEach(key => {
+    const item = template[key]
+    const innerKeys = Object.keys(item)
+    innerKeys.forEach(innerKey => {
+      const props = innerKey.split('.')
+      const value = item[innerKey]
+      if (props.length > 1) {
+        pen[key].css[props[1]] = value
+      } else {
+        pen[key] = value
+      }
+    })
+  })
+
+  const str = `
+    function createPen(options) {
+      return ${JSON.stringify(pen)}
+    }
+  `
+
+  console.log(str)
 }

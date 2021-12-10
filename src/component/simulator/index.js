@@ -5,7 +5,7 @@ import Subline from '../subline'
 import Display from '../display'
 import AttrEditor from '../attr_editor'
 import ViewList from '../view_list'
-import { setViewCss, setViewProps, setRootStyle, download } from '../../core/paletteTool'
+import { setViewCss, setViewProps, setRootStyle, download, downloadTemplate } from '../../core/paletteTool'
 import editContext from '../../context/edit'
 import storage from '../../core/storage'
 import { cloneDeep } from 'lodash'
@@ -78,8 +78,11 @@ export default function Simulator() {
   }
 
   const handleExport = () => {
-    console.log('download:', JSON.stringify(palette.value))
     download(palette)
+  }
+
+  const handleExportTemplate = () => {
+    downloadTemplate(palette)
   }
 
   const handleSaveToLocal = () => {
@@ -91,6 +94,7 @@ export default function Simulator() {
       <div className="tools">
         <button disabled>导入</button>
         <button onClick={handleExport}>导出</button>
+        <button onClick={handleExportTemplate}>导出模版</button>
         <button onClick={handleSaveToLocal}>暂存</button>
         <button disabled>复制</button>
       </div>

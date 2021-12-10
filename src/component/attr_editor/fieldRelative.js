@@ -2,13 +2,14 @@
  * @Author: kuanggf
  * @Date: 2021-12-09 09:44:38
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-10 16:09:47
+ * @LastEditTime: 2021-12-10 17:07:30
  * @Description: file content
  */
 import './index.less'
 import { useEffect, useRef, useState } from 'react'
 import { usePaletteValue } from '../../hooks/usePalette'
 import RelativeSelectPanel from './relativeSelectPanel'
+import Template from './template'
 
 const isRelative = value => {
   value = `${value}`
@@ -23,6 +24,8 @@ const addRelativeToValue = (value, id) => {
 }
 
 export default function FieldRelative({
+  id,
+  attr,
   label,
   value = '',
   onChange,
@@ -140,6 +143,7 @@ export default function FieldRelative({
               </p>
             ) : null
           }
+          <Template id={id} attr={attr}/>
         </label>
         <RelativeSelectPanel 
           css={selectPanelCss} 
