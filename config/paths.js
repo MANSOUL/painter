@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2021-10-29 15:17:00
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-10 14:46:40
+ * @LastEditTime: 2021-12-10 15:11:26
  * @Description: file content
  */
 'use strict';
@@ -28,7 +28,7 @@ const publicUrlOrPath = getPublicUrlOrPath(
   process.env.PUBLIC_URL
 );
 
-const buildPath = process.env.BUILD_PATH || 'build';
+const buildPath = process.env.BUILD_PATH || 'docs';
 
 const moduleFileExtensions = [
   'web.mjs',
