@@ -36,6 +36,7 @@
 }
 
 .field {
+  position: relative;
   display: flex;
   align-items: flex-start;
   &__label {
@@ -44,13 +45,17 @@
     flex-shrink: 0;
     font-size: 14px;
   }
-  &__input {
+  &__input,
+  &__textarea {
     display: block;
     width: 100%;
     border: none;
     border-bottom: 1px solid #666;
     outline: none;
     font-size: 16px;
+  }
+  &__textarea {
+    resize: none;
   }
   &__box {
     padding: 0 10px;
@@ -67,6 +72,50 @@
       input {
         margin-right: 4px;
       }
+    }
+  }
+}
+
+// 
+.relative-select-panel {
+  position: fixed;
+  display: flex;
+  width: 300px;
+  height: 150px;
+  background-color: #fff;
+  box-shadow:  0 4px 4px 0 rgba(0, 0, 0, .2);
+  z-index: 9;
+  border-radius: 4px;
+  display: none;
+}
+.relative-id-list {
+  width: 200px;
+  flex-grow: 0;
+  height: 100%;
+  overflow: auto;
+  &__item {
+    font-size: 14px;
+    padding: 5px;
+    cursor: pointer;
+    &:hover {
+      background-color: #f1f1f1;
+    }
+    &--active {
+      background-color: #f1f1f1;
+    }
+  }
+}
+.relative-size-list {
+  flex: 1;
+  height: 100%;
+  overflow: auto;
+  &__item {
+    width: 100%;
+    font-size: 14px;
+    padding: 5px;
+    cursor: pointer;
+    &:hover {
+      background-color: #f1f1f1;
     }
   }
 }

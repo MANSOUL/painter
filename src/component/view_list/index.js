@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2021-11-24 14:16:57
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-02 11:50:44
+ * @LastEditTime: 2021-12-10 14:22:44
  * @Description: file content
  */
 import './index.less'
@@ -10,8 +10,8 @@ import { useContext, useCallback } from 'react'
 import clsx from 'clsx'
 import paletteContext from '../../context/palette'
 import { VIEW_TYPE_IMAGE, VIEW_TYPE_TEXT, VIEW_TYPE_QRCODE, VIEW_TYPE_RECT } from '../../component_painter/base'
-import editContext from '../../context/edit'
 import { insertView, removeView } from '../../core/paletteTool'
+import useEdit from '../../hooks/useEdit'
 
 const TYPE_MAP = {
   [VIEW_TYPE_IMAGE]: '图片',
@@ -21,7 +21,7 @@ const TYPE_MAP = {
 }
 
 function ViewItem({ item, onRemoveView }) {
-  const edit = useContext(editContext)
+  const edit = useEdit()
 
   const revokeSetAttr = (id, type, config) => {
     edit.setAttrEditor(true, id, type, config)
@@ -61,7 +61,7 @@ export default function ViewList({
   css = {},
 }) {
   const palette = useContext(paletteContext)
-  const edit = useContext(editContext)
+  const edit = useEdit()
 
   const memorized = useCallback(type => {
     const config = insertView(palette.value, type)
