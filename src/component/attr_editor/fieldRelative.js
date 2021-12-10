@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2021-12-09 09:44:38
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-10 14:18:50
+ * @LastEditTime: 2021-12-10 15:38:45
  * @Description: file content
  */
 import './index.less'
@@ -17,13 +17,14 @@ const isRelative = value => {
 }
 
 const addRelativeToValue = (value, id) => {
+  if (!value) return value
   if (isRelative(value)) return value
   return `calc(${value})`
 }
 
 export default function FieldRelative({
   label,
-  value,
+  value = '',
   onChange,
   desc = ''
 }) {
@@ -78,7 +79,7 @@ export default function FieldRelative({
   const handleBlur = () => {
     let value = currentValue
     if (checked) {
-      value = addRelativeToValue(currentValue)
+      value = addRelativeToValue(value)
     }
     setCurrentValue(value)
     onChange({

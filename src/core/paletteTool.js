@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2021-11-03 14:19:52
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-07 21:37:46
+ * @LastEditTime: 2021-12-10 15:37:24
  * @Description: file content
  */
 import { cloneDeep } from 'lodash'
@@ -13,10 +13,6 @@ const DEFAULT_VIEWS = {
     type: 'image',
     url: '',
     css: {
-      width: 0,
-      height: 0,
-      top: 0,
-      left: 0,
       mode: 'aspectFill',
     },
   },
@@ -25,10 +21,6 @@ const DEFAULT_VIEWS = {
     type: 'text',
     text: '你好世界',
     css: {
-      width: 100,
-      height: 0,
-      top: 0,
-      left: 0,
       fontSize: 12,
       color: 'red',
       maxLines: 1,
@@ -46,20 +38,12 @@ const DEFAULT_VIEWS = {
     type: 'qrcode',
     content: 'halo',
     css: {
-      width: 100,
-      height: 100,
-      top: 0,
-      left: 0,
     },
   },
   rect: {
     id: '',
     type: 'rect',
     css: {
-      width: 50,
-      height: 50,
-      top: 0,
-      left: 0,
       color: 'green',
     },
   },
