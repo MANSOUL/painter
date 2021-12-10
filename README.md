@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2021-10-28 10:20:54
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-10 14:45:18
+ * @LastEditTime: 2021-12-10 15:12:24
  * @Description: file content
 -->
 # 小程序海报绘制工具
@@ -11,7 +11,7 @@
 
 将绘图所需要的配置项进行可视化并提供实时预览。
 
-[点我来试试吧！](mansou.github.io)
+[点我来试试吧！](https://mansoul.github.io/painter/)
 
 ## 优势
 
