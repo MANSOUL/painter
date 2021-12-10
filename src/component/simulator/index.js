@@ -64,7 +64,7 @@ export default function Simulator() {
     if (!regNumber.test(value) && value !== '') return
     setDevice({
       ...device,
-      [type]: value
+      [type]: Number(value)
     })
   }
   
