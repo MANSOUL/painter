@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2021-11-04 15:03:49
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-09 14:15:03
+ * @LastEditTime: 2021-12-10 15:51:39
  * @Description: file content
  */
 import './index.less'
@@ -26,10 +26,10 @@ const numberAttr = [
 ]
 const validateValue = (value, defaultValue, propType, viewType) => {
   // value = value.trim()
-  if (!numberAttr.includes(propType)) return value
-  if (!value) return value
-  if (!regNumber.test(value)) return value
-  return Number(value)
+  // if (!numberAttr.includes(propType)) return value
+  // if (!value) return value
+  // if (!regNumber.test(value)) return value
+  return value
 }
 
 function FieldInput({ label, value, onChange, desc = ''}) {
