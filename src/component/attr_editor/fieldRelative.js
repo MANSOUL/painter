@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2021-12-09 09:44:38
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-10 15:38:45
+ * @LastEditTime: 2021-12-10 16:09:47
  * @Description: file content
  */
 import './index.less'
@@ -100,7 +100,7 @@ export default function FieldRelative({
 
   const handleSelectRelative = (id, attr) => {
     const value = `${id}.${attr}`
-    const nextVal = currentValue.slice(0, refSelectionStart.current) + value + currentValue.slice(refSelectionStart.current)
+    const nextVal = `${currentValue}`.slice(0, refSelectionStart.current) + value + currentValue.slice(refSelectionStart.current)
     const nextSelectionStart = refSelectionStart.current + value.length
     setCurrentValue(nextVal)
     setTimeout(() => {
