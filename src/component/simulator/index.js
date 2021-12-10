@@ -62,14 +62,17 @@ export default function Simulator() {
   const handleDeviceChange = (type, value) => {
     const regNumber = /^\d+\.?\d*$/
     if (!regNumber.test(value) && value !== '') return
-    if (!value) value = 0
     setDevice({
       ...device,
-      [type]: Number(value)
+      [type]: value
     })
+  }
+  
+  const handleDeviceSizeBlur = () => {
     setTimeout(() => {
       palette.setValue(setRootStyle(palette.value, {
-        [type]: Number(value)
+        width: device.width || 0,
+        height: device.height || 0
       }))
     }, 0)
   }
@@ -96,12 +99,14 @@ export default function Simulator() {
           <input 
             value={device.width} 
             type="number" 
-            onChange={(e) => handleDeviceChange('width', e.target.value)}></input>
+            onChange={(e) => handleDeviceChange('width', e.target.value)}
+            onBlur={handleDeviceSizeBlur}></input>
           <span>x</span>
           <input 
             value={device.height} 
             type="number" 
-            onChange={(e) => handleDeviceChange('height', e.target.value)}></input>
+            onChange={(e) => handleDeviceChange('height', e.target.value)}
+            onBlur={handleDeviceSizeBlur}></input>
         </div>
         <div>
           <select disabled value={ratio} onChange={(e) => setRatio(e.target.value)}>
