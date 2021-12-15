@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2021-11-03 14:19:52
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-10 17:51:47
+ * @LastEditTime: 2021-12-15 16:53:29
  * @Description: file content
  */
 import { cloneDeep } from 'lodash'
@@ -146,15 +146,19 @@ export function addUnit(palette, unit = 'px') {
   return palette
 }
 
-export function download(palette) {
+const downloadBlobByLink = (blob, name) => {
   const $a = document.createElement('a')
-  const blob = new Blob([JSON.stringify(addUnit(cloneDeep(palette.value), 'rpx'))], {
-    type: 'application/json'
-  })
-  $a.download = `painter-${Date.now()}.json`
+  $a.download = name
   $a.href = URL.createObjectURL(blob)
   const clickEvent = new MouseEvent('click')
   $a.dispatchEvent(clickEvent)
+}
+
+export function download(palette) {
+  const blob = new Blob([JSON.stringify(addUnit(cloneDeep(palette.value), 'rpx'))], {
+    type: 'application/json'
+  }, null, 2)
+  downloadBlobByLink(blob, `painter-${Date.now()}.json`)
 }
 
 export function downloadTemplate(palette) {
@@ -166,22 +170,30 @@ export function downloadTemplate(palette) {
   keys.forEach(key => {
     const item = template[key]
     const innerKeys = Object.keys(item)
+    const view = pen.views.find(o => o.id === key)
+    if (!view) return
     innerKeys.forEach(innerKey => {
       const props = innerKey.split('.')
       const value = item[innerKey]
       if (props.length > 1) {
-        pen[key].css[props[1]] = value
+        view.css[props[1]] = value
       } else {
-        pen[key] = value
+        view[props[0]] = `~${value}~`
       }
     })
   })
+  // 替换成模板值
+  let stringify = JSON.stringify(pen, null, 2)
+  stringify = stringify.replace(/"~(\w+)~"/g, `options.$1`)
 
   const str = `
-    function createPen(options) {
-      return ${JSON.stringify(pen)}
-    }
+function createPen(options) {
+return ${stringify}
+}
   `
-
+  const blob = new Blob([str], {
+    type: 'text/javascript'
+  })
+  downloadBlobByLink(blob, `painter-${Date.now()}.js`)
   console.log(str)
 }
