@@ -112,11 +112,11 @@ export default function Simulator() {
   return (
     <div className="simulator">
       <div className="tools">
-        <button disabled>导入</button>
+        {/* <button disabled>导入</button> */}
         <button onClick={handleExport}>导出</button>
         <button onClick={handleExportTemplate}>导出模版</button>
         <button onClick={handleSaveToLocal}>暂存</button>
-        <button disabled>复制</button>
+        {/* <button disabled>复制</button> */}
       </div>
       <div className="device-switch">
         <div>
