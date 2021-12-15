@@ -18,7 +18,13 @@
       }
     }
   }
+  .x-axis--moveable,
+  .y-axis--moveable {
+    position: absolute;
+    background-color: #aaa;
+  }
   .x-axis {
+    left: 0;
     &__pot {
       height: 3px;
       width: 1px;
@@ -32,6 +38,7 @@
     }
   }
   .y-axis {
+    top: -1px;
     &__pot {
       width: 3px;
       height: 1px;
@@ -51,12 +58,32 @@
     width: calc(100% + 50px);
     height: 1px;
     top: -1px;
-    left: 0;
   }
   .y-axis, .y-axis--moveable {
     width: 1px;
     height: calc(100% + 50px);
-    top: -1px;
     left: 0;
+  }
+  .x-axis--moveable {
+    left: -20px;
+    text-align: right;
+    span {
+      color: #000;
+      margin-top: 4px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+  }
+  .y-axis--moveable {
+    top: -20px;
+    text-align: right;
+    span {
+      position: absolute;
+      bottom: 0;
+      color: #000;
+      margin-left: 4px;
+      font-size: 14px;
+      font-weight: bold;
+    }
   }
 }

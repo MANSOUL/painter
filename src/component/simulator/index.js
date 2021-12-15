@@ -11,6 +11,7 @@ import storage from '../../core/storage'
 import { cloneDeep } from 'lodash'
 import usePalette from '../../hooks/usePalette'
 import useProject from '../../hooks/useProject'
+import { getPosInOffsetCloset } from '../../core/domTool'
 
 const initialAttrEditor = {
   visible: false,
@@ -34,11 +35,15 @@ export default function Simulator() {
   }) // 属性编辑
   const [viewListStyle, setViewListStyle] = useState({}) // view 列表
   const [activeViewId, setActiveViewId] = useState('')
+  const [mousePos, setMousePos] = useState({
+    x: 0,
+    y: 0
+  })
 
   const memorizedCallback = useCallback(() => {
     const rect = refDeviceWrapper.current.getBoundingClientRect()
     const top = rect.top
-    const left = rect.left + device.width + 20
+    const left = rect.left + device.width + 40
     setAttrEditor(a => ({
       ...a,
       css: {
@@ -48,7 +53,7 @@ export default function Simulator() {
     }))
     setViewListStyle({
       top,
-      left: rect.left - 330
+      left: rect.left - 350
     })
   }, [device.width])
 
@@ -87,6 +92,21 @@ export default function Simulator() {
 
   const handleSaveToLocal = () => {
     storage.set(project.name, cloneDeep(palette.value))
+  }
+
+  const handleMouseMove = e => {
+    const offsetPos = getPosInOffsetCloset(e.target, refDeviceWrapper.current)
+    setMousePos({
+      x: e.nativeEvent.offsetX + offsetPos.x,
+      y: e.nativeEvent.offsetY + offsetPos.y
+    })
+  }
+
+  const handleMouseOut = () => {
+    setMousePos({
+      x: 0,
+      y: 0
+    })
   }
 
   return (
@@ -146,12 +166,16 @@ export default function Simulator() {
           style={{
             width: device.width,
             height: device.height
-          }}>
+          }}
+          onMouseMove={handleMouseMove}
+          onMouseOut={handleMouseOut}>
           <div className="canvas-wrapper">
             <Render width={device.width} height={device.height}/>
           </div>
-          <Subline width={device.width} height={device.height}/>
-          
+          <Subline 
+            width={device.width} 
+            height={device.height}
+            mousePos={mousePos}/>
           <Display />
         </div>
         {/* View 列表 */}
