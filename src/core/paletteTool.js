@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2021-11-03 14:19:52
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-16 10:49:06
+ * @LastEditTime: 2021-12-16 11:04:47
  * @Description: file content
  */
 import { cloneDeep } from 'lodash'
@@ -45,6 +45,8 @@ const DEFAULT_VIEWS = {
     type: 'rect',
     css: {
       color: 'green',
+      width: 100,
+      height: 100
     },
   },
 }
