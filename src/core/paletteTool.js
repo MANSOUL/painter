@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2021-11-03 14:19:52
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-16 11:04:47
+ * @LastEditTime: 2021-12-16 14:23:03
  * @Description: file content
  */
 import { cloneDeep } from 'lodash'
@@ -154,7 +154,8 @@ export function addUnit(palette, unit = 'px') {
     'bottom',
     'borderRadius',
     'borderWidth',
-    'fontSize'
+    'fontSize',
+    'lineHeight'
   ]
   const handle = (obj) => {
     for (let key in obj) {

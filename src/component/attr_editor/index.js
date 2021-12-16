@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2021-11-04 15:03:49
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-10 17:39:20
+ * @LastEditTime: 2021-12-16 14:22:40
  * @Description: file content
  */
 import './index.less'
@@ -291,6 +291,20 @@ export default function AttrEditor({
       ) : null}
       {viewType === VIEW_TYPE_TEXT ? (
         <FieldInput
+          key={viewId + '25'}
+          label="行高"
+          value={viewCss.lineHeight}
+          id={viewId}
+          attr="css.lineHeight"
+          onChange={(e) =>
+            handleSetCss('lineHeight', validateValue(
+              e.target.value, viewCss.lineHeight, 'lineHeight'
+            ))
+          }
+        />
+      ) : null}
+      {viewType === VIEW_TYPE_TEXT ? (
+        <FieldInput
           key={viewId + '7'}
           label="字体颜色"
           value={viewCss.color}
@@ -429,7 +443,7 @@ export default function AttrEditor({
       ) : null}
       {viewType === VIEW_TYPE_RECT ? (
         <FieldInput
-          key={viewId + '16'}
+          key={viewId + '26'}
           label="颜色"
           value={viewCss.color}
           id={viewId}
