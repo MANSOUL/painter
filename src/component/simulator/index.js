@@ -27,7 +27,8 @@ export default function Simulator() {
   const refDeviceWrapper = useRef(null)
   const [device, setDevice] = useState({
     width: palette.value.width || 100,
-    height: palette.value.height || 100
+    height: palette.value.height || 100,
+    background: palette.value.background || '#f1f1f1'
   }) // 画布尺寸
   const [ratio, setRatio] = useState(1) // 缩放比例
   const [attrEditor, setAttrEditor] = useState({
@@ -65,6 +66,13 @@ export default function Simulator() {
   }, [memorizedCallback])
 
   const handleDeviceChange = (type, value) => {
+    if (type === 'background') {
+      setDevice({
+        ...device,
+        [type]: value
+      })
+      return
+    }
     const regNumber = /^\d+\.?\d*$/
     if (!regNumber.test(value) && value !== '') return
     setDevice({
@@ -73,11 +81,12 @@ export default function Simulator() {
     })
   }
   
-  const handleDeviceSizeBlur = () => {
+  const handleDeviceChangeBlur = () => {
     setTimeout(() => {
       palette.setValue(setRootStyle(palette.value, {
         width: device.width || 0,
-        height: device.height || 0
+        height: device.height || 0,
+        background: device.background || '#f1f1f1'
       }))
     }, 0)
   }
@@ -124,13 +133,18 @@ export default function Simulator() {
             value={device.width} 
             type="number" 
             onChange={(e) => handleDeviceChange('width', e.target.value)}
-            onBlur={handleDeviceSizeBlur}></input>
+            onBlur={handleDeviceChangeBlur}></input>
           <span>x</span>
           <input 
             value={device.height} 
             type="number" 
             onChange={(e) => handleDeviceChange('height', e.target.value)}
-            onBlur={handleDeviceSizeBlur}></input>
+            onBlur={handleDeviceChangeBlur}></input>
+          &nbsp;
+          <input 
+            value={device.background}
+            onChange={(e) => handleDeviceChange('background', e.target.value)}
+            onBlur={handleDeviceChangeBlur}></input>
         </div>
         <div>
           <select disabled value={ratio} onChange={(e) => setRatio(e.target.value)}>
