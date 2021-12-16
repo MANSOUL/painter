@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2021-11-24 14:16:57
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-16 11:19:10
+ * @LastEditTime: 2021-12-16 14:42:24
  * @Description: file content
  */
 import './index.less'
@@ -51,9 +51,18 @@ function ViewItem({ item, onRemoveView, onMoveUp, onMoveDown, onCopy }) {
         <p>id: {item.id}</p>
       </div>
       <div className="view-list-item__op">
-        <button className="view-list-item__button" onClick={(e) => ((e.stopPropagation(), onMoveUp(item.id)))}>上移</button>
-        <button className="view-list-item__button" onClick={(e) => ((e.stopPropagation(), onMoveDown(item.id)))}>下移</button>
-        <button className="view-list-item__button" onClick={(e) => ((e.stopPropagation(), onCopy(item.id)))}>复制</button>
+        <button 
+          className="view-list-item__button"
+          style={{background: '#e77911'}}
+          onClick={(e) => ((e.stopPropagation(), onMoveUp(item.id)))}>上移</button>
+        <button 
+          className="view-list-item__button" 
+          style={{background: '#e77911'}}
+          onClick={(e) => ((e.stopPropagation(), onMoveDown(item.id)))}>下移</button>
+        <button 
+          className="view-list-item__button"
+          style={{background: '#16a144'}}
+          onClick={(e) => ((e.stopPropagation(), onCopy(item.id)))}>复制</button>
         <button className="view-list-item__button" onClick={handleRemove}>移除</button>
       </div>
     </div>
