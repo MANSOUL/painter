@@ -2,11 +2,11 @@
  * @Author: kuanggf
  * @Date: 2021-11-24 14:16:57
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-16 11:08:29
+ * @LastEditTime: 2021-12-16 11:19:10
  * @Description: file content
  */
 import './index.less'
-import { useContext, useCallback } from 'react'
+import { useContext, useCallback, useRef } from 'react'
 import clsx from 'clsx'
 import paletteContext from '../../context/palette'
 import { VIEW_TYPE_IMAGE, VIEW_TYPE_TEXT, VIEW_TYPE_QRCODE, VIEW_TYPE_RECT } from '../../component_painter/base'
@@ -65,6 +65,7 @@ export default function ViewList({
 }) {
   const palette = useContext(paletteContext)
   const edit = useEdit()
+  const refSroller = useRef(null)
 
   const memorized = useCallback(type => {
     const config = insertView(palette.value, type)
@@ -72,6 +73,10 @@ export default function ViewList({
     edit.setActiveViewId(view.id)
     edit.setPalette(config.palette)
     edit.setAttrEditor(true, view.id, view.type, view)
+    setTimeout(() => {
+      const dom = refSroller.current
+      dom.scrollTop = dom.scrollHeight - dom.clientHeight
+    }, 100)
   }, [palette.value, edit])
 
   const handleRemoveViewMemorized = useCallback(id => {
@@ -100,7 +105,7 @@ export default function ViewList({
 
   return (
     <div style={css} className="view-list">
-      <div className="view-list__scroller">
+      <div className="view-list__scroller" ref={refSroller}>
         {palette.value.views?.map((item, index) => (
           <ViewItem
             key={item.id || index} 
