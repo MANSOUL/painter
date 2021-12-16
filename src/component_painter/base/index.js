@@ -52,51 +52,51 @@ export default function Base({
     edit.setActiveViewId(id)
   }
 
-  const handleMouseDown = e => {
-    setActive({
-      ...active,
-      active: true
-    })
-    mouse.current = {
-      lock: true,
-      prevX: e.clientX,
-      prevY: e.clientY
-    }
-  }
+  // const handleMouseDown = e => {
+  //   setActive({
+  //     ...active,
+  //     active: true
+  //   })
+  //   mouse.current = {
+  //     lock: true,
+  //     prevX: e.clientX,
+  //     prevY: e.clientY
+  //   }
+  // }
 
-  const handleMouseMove = e => {
-    if (!mouse.current.lock) return
-    const offsetX = e.clientX - mouse.current.prevX
-    const offsetY = e.clientY - mouse.current.prevY
-    let {top, left} = css
-    if (!top) top = 0
-    if (!left) left = 0
-    top += offsetY
-    left += offsetX
-    mouse.current = {
-      lock: true,
-      prevX: e.clientX,
-      prevY: e.clientY
-    }
-    setCss({
-      ...css,
-      top,
-      left
-    })
-    edit.setViewCss(id, { top, left })
-  }
+  // const handleMouseMove = e => {
+  //   if (!mouse.current.lock) return
+  //   const offsetX = e.clientX - mouse.current.prevX
+  //   const offsetY = e.clientY - mouse.current.prevY
+  //   let {top, left} = css
+  //   if (!top) top = 0
+  //   if (!left) left = 0
+  //   top += offsetY
+  //   left += offsetX
+  //   mouse.current = {
+  //     lock: true,
+  //     prevX: e.clientX,
+  //     prevY: e.clientY
+  //   }
+  //   setCss({
+  //     ...css,
+  //     top,
+  //     left
+  //   })
+  //   edit.setViewCss(id, { top, left })
+  // }
 
-  const handleMouseUp = e => {
-    setActive({
-      ...active,
-      active: false
-    })
-    mouse.current = {
-      lock: false,
-      prevX: e.clientX,
-      prevY: e.clientY
-    }
-  }
+  // const handleMouseUp = e => {
+  //   setActive({
+  //     ...active,
+  //     active: false
+  //   })
+  //   mouse.current = {
+  //     lock: false,
+  //     prevX: e.clientX,
+  //     prevY: e.clientY
+  //   }
+  // }
 
   const handleMouseLeave = e => {
     setActive({

@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2021-11-01 15:15:03
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-09 11:09:48
+ * @LastEditTime: 2021-12-16 14:37:01
  * @Description: file content
  */
 import { useRef, useEffect } from 'react'
@@ -44,6 +44,7 @@ export default function Render({
       palette.setPen(pen)
       console.log('after draw:', JSON.parse(JSON.stringify(pen)))
     })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [palette.value])
 
   return (

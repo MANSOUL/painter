@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2021-11-04 15:03:49
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-16 14:22:40
+ * @LastEditTime: 2021-12-16 14:35:18
  * @Description: file content
  */
 import './index.less'
@@ -10,26 +10,10 @@ import { cloneDeep } from 'lodash'
 import { useContext, useState, useCallback, useEffect } from 'react'
 import editContext from '../../context/edit'
 import { VIEW_TYPE_IMAGE, VIEW_TYPE_TEXT, VIEW_TYPE_QRCODE, VIEW_TYPE_RECT } from '../../component_painter/base'
-import { regNumber } from '../../core/paletteTool'
 import FieldRelative from './fieldRelative'
 import Template from './template'
 
-const numberAttr = [
-  'width',
-  'height',
-  'top',
-  'left',
-  'right',
-  'bottom',
-  'fontSize',
-  'maxLines',
-  'padding'
-]
 const validateValue = (value, defaultValue, propType, viewType) => {
-  // value = value.trim()
-  // if (!numberAttr.includes(propType)) return value
-  // if (!value) return value
-  // if (!regNumber.test(value)) return value
   return value
 }
 

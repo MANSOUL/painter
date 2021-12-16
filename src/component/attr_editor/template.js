@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2021-12-10 16:50:58
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-10 17:38:05
+ * @LastEditTime: 2021-12-16 14:37:46
  * @Description: file content
  */
 import { useState, useEffect } from 'react'
@@ -18,7 +18,6 @@ export default function Template({
 
   useEffect(() => {
     const map = palette.template[id] || {}
-    console.log('okkkk:', palette.template[id])
     if (map[attr] !== undefined) {
       setChecked(true)
       setTemplateValue(map[attr])
