@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2021-11-24 14:16:57
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-10 14:22:44
+ * @LastEditTime: 2021-12-16 10:32:31
  * @Description: file content
  */
 import './index.less'
@@ -10,7 +10,7 @@ import { useContext, useCallback } from 'react'
 import clsx from 'clsx'
 import paletteContext from '../../context/palette'
 import { VIEW_TYPE_IMAGE, VIEW_TYPE_TEXT, VIEW_TYPE_QRCODE, VIEW_TYPE_RECT } from '../../component_painter/base'
-import { insertView, removeView } from '../../core/paletteTool'
+import { insertView, moveDown, moveUp, removeView } from '../../core/paletteTool'
 import useEdit from '../../hooks/useEdit'
 
 const TYPE_MAP = {
@@ -20,7 +20,7 @@ const TYPE_MAP = {
   [VIEW_TYPE_RECT]: '矩形',
 }
 
-function ViewItem({ item, onRemoveView }) {
+function ViewItem({ item, onRemoveView, onMoveUp, onMoveDown }) {
   const edit = useEdit()
 
   const revokeSetAttr = (id, type, config) => {
@@ -51,6 +51,8 @@ function ViewItem({ item, onRemoveView }) {
         <p>id: {item.id}</p>
       </div>
       <div className="view-list-item__op">
+        <button className="view-list-item__button" onClick={() => onMoveUp(item.id)}>上移</button>
+        <button className="view-list-item__button" onClick={() => onMoveDown(item.id)}>下移</button>
         <button className="view-list-item__button" onClick={handleRemove}>移除</button>
       </div>
     </div>
@@ -77,11 +79,28 @@ export default function ViewList({
     edit.setAttrEditor(false)
   }, [palette.value, edit])
 
+  const handleMoveUp = (id) => {
+    const palatteValue = moveUp(palette.value, id)
+    edit.setPalette(palatteValue)
+    edit.setAttrEditor(false)
+  }
+
+  const handleMoveDown = (id) => {
+    const palatteValue = moveDown(palette.value, id)
+    edit.setPalette(palatteValue)
+    edit.setAttrEditor(false)
+  }
+
   return (
     <div style={css} className="view-list">
       <div className="view-list__scroller">
         {palette.value.views?.map((item, index) => (
-          <ViewItem key={item.id || index} item={item} onRemoveView={handleRemoveViewMemorized}/>
+          <ViewItem
+            key={item.id || index} 
+            item={item} 
+            onMoveUp={handleMoveUp}
+            onMoveDown={handleMoveDown}
+            onRemoveView={handleRemoveViewMemorized}/>
         ))}
         <div
           className="view-list-item">

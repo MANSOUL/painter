@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2021-11-03 14:19:52
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-15 16:53:29
+ * @LastEditTime: 2021-12-16 10:39:32
  * @Description: file content
  */
 import { cloneDeep } from 'lodash'
@@ -113,6 +113,22 @@ export function insertView(palette, type) {
 export function removeView(palette, id) {
   const index = getViewByIndex(palette, id)
   palette.views.splice(index, 1)
+  return palette
+}
+
+export function moveUp(palette, id) {
+  const index = getViewByIndex(palette, id)
+  if (index === 0) return palette
+  const item = palette.views.splice(index, 1)
+  palette.views.splice(index - 1, 0, ...item)
+  return palette
+}
+
+export function moveDown(palette, id) {
+  const index = getViewByIndex(palette, id)
+  if (index === palette.views.length - 1) return palette
+  const item = palette.views.splice(index, 1)
+  palette.views.splice(index + 1, 0, ...item)
   return palette
 }
 
