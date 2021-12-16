@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2021-11-24 14:16:57
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-16 10:32:31
+ * @LastEditTime: 2021-12-16 10:46:12
  * @Description: file content
  */
 import './index.less'
@@ -10,7 +10,7 @@ import { useContext, useCallback } from 'react'
 import clsx from 'clsx'
 import paletteContext from '../../context/palette'
 import { VIEW_TYPE_IMAGE, VIEW_TYPE_TEXT, VIEW_TYPE_QRCODE, VIEW_TYPE_RECT } from '../../component_painter/base'
-import { insertView, moveDown, moveUp, removeView } from '../../core/paletteTool'
+import { copyItem, insertView, moveDown, moveUp, removeView } from '../../core/paletteTool'
 import useEdit from '../../hooks/useEdit'
 
 const TYPE_MAP = {
@@ -20,7 +20,7 @@ const TYPE_MAP = {
   [VIEW_TYPE_RECT]: '矩形',
 }
 
-function ViewItem({ item, onRemoveView, onMoveUp, onMoveDown }) {
+function ViewItem({ item, onRemoveView, onMoveUp, onMoveDown, onCopy }) {
   const edit = useEdit()
 
   const revokeSetAttr = (id, type, config) => {
@@ -51,8 +51,9 @@ function ViewItem({ item, onRemoveView, onMoveUp, onMoveDown }) {
         <p>id: {item.id}</p>
       </div>
       <div className="view-list-item__op">
-        <button className="view-list-item__button" onClick={() => onMoveUp(item.id)}>上移</button>
-        <button className="view-list-item__button" onClick={() => onMoveDown(item.id)}>下移</button>
+        <button className="view-list-item__button" onClick={(e) => ((e.stopPropagation(), onMoveUp(item.id)))}>上移</button>
+        <button className="view-list-item__button" onClick={(e) => ((e.stopPropagation(), onMoveDown(item.id)))}>下移</button>
+        <button className="view-list-item__button" onClick={(e) => ((e.stopPropagation(), onCopy(item.id)))}>复制</button>
         <button className="view-list-item__button" onClick={handleRemove}>移除</button>
       </div>
     </div>
@@ -91,6 +92,12 @@ export default function ViewList({
     edit.setAttrEditor(false)
   }
 
+  const handleCopy = (id) => {
+    const palatteValue = copyItem(palette.value, id)
+    edit.setPalette(palatteValue)
+    edit.setAttrEditor(false)
+  }
+
   return (
     <div style={css} className="view-list">
       <div className="view-list__scroller">
@@ -100,6 +107,7 @@ export default function ViewList({
             item={item} 
             onMoveUp={handleMoveUp}
             onMoveDown={handleMoveDown}
+            onCopy={handleCopy}
             onRemoveView={handleRemoveViewMemorized}/>
         ))}
         <div

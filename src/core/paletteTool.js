@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2021-11-03 14:19:52
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-16 10:39:32
+ * @LastEditTime: 2021-12-16 10:42:37
  * @Description: file content
  */
 import { cloneDeep } from 'lodash'
@@ -129,6 +129,16 @@ export function moveDown(palette, id) {
   if (index === palette.views.length - 1) return palette
   const item = palette.views.splice(index, 1)
   palette.views.splice(index + 1, 0, ...item)
+  return palette
+}
+
+export function copyItem(palette, id) {
+  const view = getViewById(palette, id)
+  if (!view) return palette
+  const viewCopy = cloneDeep(view)
+  const viewId = `${viewCopy.type}_${Date.now()}`
+  viewCopy.id = viewId
+  palette.views.push(viewCopy)
   return palette
 }
 
