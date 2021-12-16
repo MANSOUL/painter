@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2021-11-24 14:16:57
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-16 10:46:12
+ * @LastEditTime: 2021-12-16 11:08:29
  * @Description: file content
  */
 import './index.less'
@@ -110,20 +110,14 @@ export default function ViewList({
             onCopy={handleCopy}
             onRemoveView={handleRemoveViewMemorized}/>
         ))}
-        <div
-          className="view-list-item">
-          <div className="view-list-item__title">
-            新增
-          </div>
-          <div className="view-list-item__cards">
-            <div className="view-list-item__card" onClick={() => memorized(VIEW_TYPE_IMAGE)}>图片</div>
-            <div className="view-list-item__card" onClick={() => memorized(VIEW_TYPE_TEXT)}>文本</div>
-            <div className="view-list-item__card" onClick={() => memorized(VIEW_TYPE_QRCODE)}>二维码</div>
-            <div className="view-list-item__card" onClick={() => memorized(VIEW_TYPE_RECT)}>矩形</div>
-          </div>
-        </div>
       </div>
       <div className="view-list__footer">
+        <div className="view-list-item__cards">
+          <div className="view-list-item__card" onClick={() => memorized(VIEW_TYPE_IMAGE)}>+图片</div>
+          <div className="view-list-item__card" onClick={() => memorized(VIEW_TYPE_TEXT)}>+文本</div>
+          <div className="view-list-item__card" onClick={() => memorized(VIEW_TYPE_QRCODE)}>+二维码</div>
+          <div className="view-list-item__card" onClick={() => memorized(VIEW_TYPE_RECT)}>+矩形</div>
+        </div>
       </div>
     </div>
   )
