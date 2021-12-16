@@ -2,12 +2,12 @@
  * @Author: kuanggf
  * @Date: 2021-10-28 10:20:54
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-10 15:12:24
+ * @LastEditTime: 2021-12-16 16:16:37
  * @Description: file content
 -->
 # 小程序海报绘制工具
 
-本项目依赖 [Painter](https://github.com/Kujiale-Mobile/Painter) > 1.0.5 提供的核心绘图功能。
+本项目依赖 [Painter 2.0](https://github.com/Kujiale-Mobile/Painter) 提供的核心绘图功能。
 
 将绘图所需要的配置项进行可视化并提供实时预览。
 
