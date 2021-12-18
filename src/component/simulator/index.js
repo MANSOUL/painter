@@ -101,6 +101,7 @@ export default function Simulator() {
 
   const handleSaveToLocal = () => {
     storage.set(project.name, cloneDeep(palette.value))
+    storage.setTemplate(project.name, cloneDeep(palette.template))
   }
 
   const handleMouseMove = e => {

@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2021-12-09 09:42:42
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-10 17:18:03
+ * @LastEditTime: 2021-12-18 20:45:26
  * @Description: file content
  */
 import './index.css'
@@ -16,7 +16,7 @@ export default function Index() {
   const project = useProject()
   const [ palette, setPalette ] = useState(storage.get(project.name) || paletteDefault)
   const [ pen, setPen ] = useState({})
-  const [ template, setTemplate ] = useState({})
+  const [ template, setTemplate ] = useState(storage.getTemplate(project.name) || {})
   const handleSetPalette = (value) => {
     setPalette({...value})
   }

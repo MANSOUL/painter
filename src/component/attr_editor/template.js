@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2021-12-10 16:50:58
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-16 14:37:46
+ * @LastEditTime: 2021-12-18 20:54:31
  * @Description: file content
  */
 import { useState, useEffect } from 'react'
@@ -43,14 +43,13 @@ export default function Template({
     setTemplateValue(e.target.value)
     if (!template[id]) template[id] = {}
     template[id][attr] = e.target.value
-    console.log('change:', template)
     palette.setTemplate(template)
   }
 
   return (
     <div className="use-template">
       <label>
-        <input type="checkbox" value={checked} onClick={handleToggleChecked}/>
+        <input type="checkbox" checked={checked} onChange={handleToggleChecked}/>
         启用模版
       </label>
       <label style={{display: checked ? 'flex' : 'none'}}>
