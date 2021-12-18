@@ -2,11 +2,12 @@
  * @Author: kuanggf
  * @Date: 2021-12-10 10:55:50
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-10 17:13:29
+ * @LastEditTime: 2021-12-18 21:12:54
  * @Description: file content
  */
 import clsx from 'clsx'
 import { useEffect, useState, useRef } from 'react'
+import { getViewByIndex } from '../../core/paletteTool'
 import useEdit from '../../hooks/useEdit'
 import { usePaletteValue } from '../../hooks/usePalette'
 
@@ -22,7 +23,8 @@ export default function RelativeSelectPanel({
   css = {},
   onSelect,
   onVisibleChange,
-  refInput
+  refInput,
+  viewId
 }) {
   const edit = useEdit()
   const palette = usePaletteValue()
@@ -55,12 +57,15 @@ export default function RelativeSelectPanel({
     edit.setActiveViewId('')
   }
 
+  const viewIndex = getViewByIndex(palette, viewId)
+  const views = palette.views?.filter((item, index) => (index < viewIndex)) || []
   return (
     <div className="relative-select-panel" style={css} ref={refPanel}>
+      {views.length === 0 ? <p style={{fontSize: 12, padding: 10}}>相对布局所使用的view，需位于当前view之前</p> : null}
       <div className="relative-id-list">
         {
-          palette.views?.map(item => (
-            <div 
+          views.map(item => (
+            <div
               onMouseEnter={() => handleMouseEnter(item.id)}
               onMouseLeave={handleMouseLeave}
               key={item.id} 

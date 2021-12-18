@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2021-12-09 09:44:38
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-10 17:07:30
+ * @LastEditTime: 2021-12-18 21:00:31
  * @Description: file content
  */
 import './index.less'
@@ -136,7 +136,7 @@ export default function FieldRelative({
           />
           {
             views.length > 0 ? (
-              <p className="field__desc">
+              <p className="field__desc field__desc--deep">
                 <label>
                   <input type="checkbox" checked={checked} onChange={handleToggleRelative}></input>相对布局
                 </label>
@@ -149,7 +149,8 @@ export default function FieldRelative({
           css={selectPanelCss} 
           onSelect={handleSelectRelative}
           onVisibleChange={handleToggleSelectRelative}
-          refInput={refInput.current}/>
+          refInput={refInput.current}
+          viewId={id}/>
       </div>
     </div>
   )

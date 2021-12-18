@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2021-11-03 14:19:52
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-16 14:23:03
+ * @LastEditTime: 2021-12-18 21:04:40
  * @Description: file content
  */
 import { cloneDeep } from 'lodash'
@@ -54,10 +54,12 @@ const DEFAULT_VIEWS = {
 export const regNumber  = /^-?\d+$/
 
 export function getViewById(palette, id) {
+  if (!palette) return null
   return palette.views.find((item) => item.id === id)
 }
 
 export function getViewByIndex(palette, id) {
+  if (!palette) return -1
   return palette.views.findIndex((item) => item.id === id)
 }
 
