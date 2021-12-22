@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2021-12-09 00:36:49
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-09 11:07:13
+ * @LastEditTime: 2021-12-21 15:49:03
  * @Description: file content
  */
 import { useContext } from 'react'
@@ -21,4 +21,14 @@ export function usePaletteValue() {
 export function usePalettePen() {
   const palette = usePalette()
   return palette.pen
+}
+
+export function usePaletteTemplate() {
+  const palette = usePalette()
+  return palette.template
+}
+
+export function usePaletteGroups() {
+  const palette = usePalette()
+  return palette.groups
 }

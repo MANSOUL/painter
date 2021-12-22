@@ -2,11 +2,11 @@
  * @Author: kuanggf
  * @Date: 2021-11-24 14:16:57
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-16 14:42:24
+ * @LastEditTime: 2021-12-21 15:45:06
  * @Description: file content
  */
 import './index.less'
-import { useContext, useCallback, useRef } from 'react'
+import { useContext, useCallback, useRef, useState, useEffect } from 'react'
 import clsx from 'clsx'
 import paletteContext from '../../context/palette'
 import { VIEW_TYPE_IMAGE, VIEW_TYPE_TEXT, VIEW_TYPE_QRCODE, VIEW_TYPE_RECT } from '../../component_painter/base'
@@ -20,7 +20,17 @@ const TYPE_MAP = {
   [VIEW_TYPE_RECT]: '矩形',
 }
 
-function ViewItem({ item, onRemoveView, onMoveUp, onMoveDown, onCopy }) {
+function ViewItem({ 
+  item, 
+  group,
+  onRemoveView, 
+  onMoveUp, 
+  onMoveDown, 
+  onCopy, 
+  onGroupSelect, 
+  onGroupMenu,
+  onGroupCancel
+}) {
   const edit = useEdit()
 
   const revokeSetAttr = (id, type, config) => {
@@ -40,12 +50,35 @@ function ViewItem({ item, onRemoveView, onMoveUp, onMoveDown, onCopy }) {
     onRemoveView(item.id)
   }
 
+  const handleClick = e => {
+    if (e.altKey) {
+      if (!group.includes(item.id)) {
+        onGroupSelect(item.id)
+      } else {
+        onGroupCancel(item.id)
+      }
+    }
+    revokeSetAttr(item.id, item.type, item)
+  }
+
+  const handleContextMenu = e => {
+    e.preventDefault()
+    if (group.includes(item.id)) {
+      onGroupMenu(e.clientX, e.clientY)
+    }
+  }
+
   return (
     <div 
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className={clsx('view-list-item', edit.activeViewId === item.id && 'view-list-item--highlight')} 
-      onClick={() => revokeSetAttr(item.id, item.type, item)}>
+      onContextMenu={handleContextMenu}
+      className={clsx(
+        'view-list-item', 
+        edit.activeViewId === item.id && 'view-list-item--highlight',
+        group.includes(item.id) && 'view-list-item--select'
+      )} 
+      onClick={handleClick}>
       <div className="view-list-item__content">
         <p>类型: {TYPE_MAP[item.type]}</p>
         <p>id: {item.id}</p>
@@ -75,6 +108,19 @@ export default function ViewList({
   const palette = useContext(paletteContext)
   const edit = useEdit()
   const refSroller = useRef(null)
+  const [group, setGroup] = useState([])
+  const [menuStyle, setMenuStyle] = useState({ display: 'none' })
+
+  useEffect(() => {
+    const handleClick = e => {
+      if (!e.altKey) {
+        setGroup([])
+        setMenuStyle({ display: 'none' })
+      }
+    }
+    window.addEventListener('click', handleClick)
+    return () => window.removeEventListener('click', handleClick)
+  }, [])
 
   const memorized = useCallback(type => {
     const config = insertView(palette.value, type)
@@ -112,17 +158,51 @@ export default function ViewList({
     edit.setAttrEditor(false)
   }
 
+  const handleGroupSelect = (id) => {
+    setGroup([
+      ...group,
+      id
+    ])
+  }
+
+  const handleGroupCancel = (id) => {
+    group.splice(group.findIndex(item => item === id), 1)
+    setGroup(group)
+  }
+
+  const handleGroupMenu = (x, y) => {
+    if (group.length > 1) {
+      setMenuStyle({
+        display: 'block',
+        left: x,
+        top: y
+      })
+    }
+  }
+
+  const handleGroupSelection = () => {
+    palette.setGroups([
+      ...palette.groups,
+      [...group]
+    ])
+    setGroup([])
+  }
+
   return (
     <div style={css} className="view-list">
       <div className="view-list__scroller" ref={refSroller}>
         {palette.value.views?.map((item, index) => (
           <ViewItem
             key={item.id || index} 
-            item={item} 
+            item={item}
+            group={group}
             onMoveUp={handleMoveUp}
             onMoveDown={handleMoveDown}
             onCopy={handleCopy}
-            onRemoveView={handleRemoveViewMemorized}/>
+            onRemoveView={handleRemoveViewMemorized}
+            onGroupSelect={handleGroupSelect}
+            onGroupCancel={handleGroupCancel}
+            onGroupMenu={handleGroupMenu} />
         ))}
       </div>
       <div className="view-list__footer">
@@ -132,6 +212,9 @@ export default function ViewList({
           <div className="view-list-item__card" onClick={() => memorized(VIEW_TYPE_QRCODE)}>+二维码</div>
           <div className="view-list-item__card" onClick={() => memorized(VIEW_TYPE_RECT)}>+矩形</div>
         </div>
+      </div>
+      <div className="view-list__menu" style={menuStyle}>
+        <div onClick={handleGroupSelection}>组合所选view</div>
       </div>
     </div>
   )

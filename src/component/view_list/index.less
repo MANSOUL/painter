@@ -41,6 +41,9 @@
   &--highlight {
     border-color: #acf;
   }
+  &--select {
+    background-color: #acf;
+  }
   &__title {
     border-bottom: 1px solid #ccc;
     font-size: 14px;
@@ -90,6 +93,28 @@
     margin-left: 10px;
     &:hover {
       background-color: red;
+    }
+  }
+}
+
+.view-list__menu {
+  position: fixed;
+  z-index: 9;
+  width: 180px;
+  height: 100px;
+  border-radius: 6px;
+  box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, .1);
+  background-color: #666;
+  overflow: hidden;
+  div {
+    font-size: 14px;
+    line-height: 20px;
+    padding: 4px 6px;
+    color: #fff;
+    cursor: pointer;
+    &:hover {
+      background-color: #ccc;
+      color: #000;
     }
   }
 }

@@ -2,7 +2,7 @@
  * @Author: kuanggf
  * @Date: 2021-12-09 09:42:42
  * @LastEditors: kuanggf
- * @LastEditTime: 2021-12-18 20:45:26
+ * @LastEditTime: 2021-12-21 15:43:34
  * @Description: file content
  */
 import './index.css'
@@ -17,6 +17,7 @@ export default function Index() {
   const [ palette, setPalette ] = useState(storage.get(project.name) || paletteDefault)
   const [ pen, setPen ] = useState({})
   const [ template, setTemplate ] = useState(storage.getTemplate(project.name) || {})
+  const [ groups, setGroups ] = useState(storage.getTemplate(project.name) || [])
   const handleSetPalette = (value) => {
     setPalette({...value})
   }
@@ -28,7 +29,9 @@ export default function Index() {
         pen,
         setPen,
         template,
-        setTemplate
+        setTemplate,
+        groups,
+        setGroups
       }}>
         <div className="layout__left">
           <Simulator />
