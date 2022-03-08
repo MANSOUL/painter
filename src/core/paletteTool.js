@@ -5,7 +5,7 @@
  * @LastEditTime: 2021-12-18 21:04:40
  * @Description: file content
  */
-import { cloneDeep } from 'lodash'
+import { cloneDeep, uniq } from 'lodash'
 
 const DEFAULT_VIEWS = {
   image: {
@@ -177,6 +177,63 @@ export function addUnit(palette, unit = 'px') {
   return palette
 }
 
+const isRelative = value => {
+  value = `${value}`
+  if (!value) return false
+  return /^(calc)\((.+)\)$/.test(value)
+}
+
+
+const addGhostNodeForRelative = (data) => {
+  console.log(data)
+  const units = ['width', 'height', 'top', 'left']
+  const { views } = data
+  const relativeParents = []
+  const ghostViews = []
+
+  const extractRelativeParent = (value) => {
+    const regExtract = /calc\((.+)\)/
+    const regRelative = /(image|text|rect|qrcode)_\d+/g
+    const matches = value.match(regExtract)
+    const entity = matches[1]
+    const ids = uniq(entity.match(regRelative))
+    ids.forEach(id => {
+      if (!relativeParents.includes(id)) {
+        relativeParents.push(id)
+      }
+      value = value.replace(new RegExp(id, 'g'), `ghost_${id}`)
+    })
+    
+    return value
+  }
+
+  views.forEach(viewItem => {
+    const { css } = viewItem
+    units.forEach(unit => {
+      if (isRelative(css[unit])) {
+        css[unit] = extractRelativeParent(css[unit])
+      }
+    })
+  })
+
+  relativeParents.forEach(id => {
+    let ghostId = `ghost_${id}`
+    if (getViewById(data, ghostId)) return
+    const view = getViewById(data, id)
+    const ghostView = cloneDeep(view)
+    ghostView.id = ghostId
+    ghostView.css.top = '-9999rpx'
+    ghostView.css.left = '-9999rpx'
+    ghostView.warn = 'ghost view，勿删！'
+    ghostViews.push(ghostView)
+  })
+
+  console.log('ghostViews:', ghostViews)
+  views.unshift(...ghostViews)
+
+  return data
+}
+
 const downloadBlobByLink = (blob, name) => {
   const $a = document.createElement('a')
   $a.download = name
@@ -186,14 +243,16 @@ const downloadBlobByLink = (blob, name) => {
 }
 
 export function download(palette) {
-  const blob = new Blob([JSON.stringify(addUnit(cloneDeep(palette.value), 'rpx'))], {
+  const blob = new Blob([JSON.stringify(
+    addUnit(addGhostNodeForRelative(cloneDeep(palette.value)), 'rpx')
+  )], {
     type: 'application/json'
   }, null, 2)
   downloadBlobByLink(blob, `painter-${Date.now()}.json`)
 }
 
 export function downloadTemplate(palette) {
-  const pen = addUnit(cloneDeep(palette.value), 'rpx')
+  const pen = addUnit(addGhostNodeForRelative(cloneDeep(palette.value)), 'rpx')
   const template = cloneDeep(palette.template)
 
   const keys = Object.keys(template)
