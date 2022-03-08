@@ -97,6 +97,8 @@ export default function FieldRelative({
     const next = !checked
     if (!next) {
       setCurrentValue('')
+    } else {
+      setCurrentValue('calc()')
     }
     setChecked(next)
   }
