@@ -185,19 +185,20 @@ const isRelative = value => {
 
 
 const addGhostNodeForRelative = (data) => {
-  console.log(data)
   const units = ['width', 'height', 'top', 'left']
   const { views } = data
   const relativeParents = []
   const ghostViews = []
 
-  const extractRelativeParent = (value) => {
+  const extractRelativeParent = (value, viewIndex) => {
     const regExtract = /calc\((.+)\)/
     const regRelative = /(image|text|rect|qrcode)_\d+/g
     const matches = value.match(regExtract)
     const entity = matches[1]
     const ids = uniq(entity.match(regRelative))
     ids.forEach(id => {
+      const idIndex = getViewByIndex(data, id)
+      if (idIndex < viewIndex) return
       if (!relativeParents.includes(id)) {
         relativeParents.push(id)
       }
@@ -207,11 +208,11 @@ const addGhostNodeForRelative = (data) => {
     return value
   }
 
-  views.forEach(viewItem => {
+  views.forEach((viewItem, viewIndex) => {
     const { css } = viewItem
     units.forEach(unit => {
       if (isRelative(css[unit])) {
-        css[unit] = extractRelativeParent(css[unit])
+        css[unit] = extractRelativeParent(css[unit], viewIndex)
       }
     })
   })
@@ -228,8 +229,36 @@ const addGhostNodeForRelative = (data) => {
     ghostViews.push(ghostView)
   })
 
-  console.log('ghostViews:', ghostViews)
   views.unshift(...ghostViews)
+
+  return data
+}
+
+const formatOutput = (data) => {
+  const units = ['width', 'height', 'top', 'left']
+  const { views } = data
+
+  // 删除 css textStyle:fill
+  views.forEach(viewItem => {
+    const { css } = viewItem
+    if (css.textStyle === 'fill') {
+      delete css.textStyle
+    }
+  })
+
+  // 处理calc中的单位
+  const addUnitToCalc = (value) => {
+    return value.replace(/((\(|\+|-)\s*\d+)/g, `$1rpx`)
+  }
+
+  views.forEach((viewItem) => {
+    const { css } = viewItem
+    units.forEach(unit => {
+      if (isRelative(css[unit])) {
+        css[unit] = addUnitToCalc(css[unit])
+      }
+    })
+  })
 
   return data
 }
@@ -244,7 +273,7 @@ const downloadBlobByLink = (blob, name) => {
 
 export function download(palette) {
   const blob = new Blob([JSON.stringify(
-    addUnit(addGhostNodeForRelative(cloneDeep(palette.value)), 'rpx')
+    addUnit(formatOutput(addGhostNodeForRelative(cloneDeep(palette.value))), 'rpx')
   )], {
     type: 'application/json'
   }, null, 2)
@@ -252,7 +281,10 @@ export function download(palette) {
 }
 
 export function downloadTemplate(palette) {
-  const pen = addUnit(addGhostNodeForRelative(cloneDeep(palette.value)), 'rpx')
+  const pen = addUnit(
+    formatOutput(addGhostNodeForRelative(cloneDeep(palette.value))), 
+    'rpx'
+  )
   const template = cloneDeep(palette.template)
 
   const keys = Object.keys(template)
