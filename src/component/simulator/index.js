@@ -128,9 +128,9 @@ export default function Simulator() {
     <div className="simulator">
       <div className="tools">
         {/* <button disabled>导入</button> */}
-        <button onClick={handleExport}>导出</button>
-        <button onClick={handleExportTemplate}>导出模版</button>
-        <button onClick={handleSaveToLocal}>暂存</button>
+        <button onClick={handleExport} title="导出为json文件">导出</button>
+        <button onClick={handleExportTemplate} title="导出为返回json的函数">导出模版</button>
+        <button onClick={handleSaveToLocal} title="将当前编辑暂存到本地">暂存</button>
         {/* <button disabled>复制</button> */}
       </div>
       <div className="device-switch">
