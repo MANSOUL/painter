@@ -12,6 +12,7 @@ import { cloneDeep } from 'lodash'
 import usePalette from '../../hooks/usePalette'
 import useProject from '../../hooks/useProject'
 import { getPosInOffsetCloset } from '../../core/domTool'
+import Back from '../back'
 
 const initialAttrEditor = {
   visible: false,
@@ -35,6 +36,7 @@ export default function Simulator() {
     ...initialAttrEditor
   }) // 属性编辑
   const [viewListStyle, setViewListStyle] = useState({}) // view 列表
+  const [backStyle, setBackStyle] = useState({}) // view 列表
   const [activeViewId, setActiveViewId] = useState('')
   const [mousePos, setMousePos] = useState({
     x: 0,
@@ -54,6 +56,9 @@ export default function Simulator() {
     }))
     setViewListStyle({
       top,
+      left: rect.left - 350
+    })
+    setBackStyle({
       left: rect.left - 350
     })
   }, [device.width])
@@ -202,6 +207,8 @@ export default function Simulator() {
           defaultValue={attrEditor.defaultValue}
           visible={attrEditor.visible}
           css={attrEditor.css}/>
+        {/* 返回按钮 */}
+        <Back css={backStyle}/>
       </editContext.Provider>
     </div>
   )
