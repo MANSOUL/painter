@@ -107,6 +107,7 @@ export default function Simulator() {
   const handleSaveToLocal = () => {
     storage.set(project.name, cloneDeep(palette.value))
     storage.setTemplate(project.name, cloneDeep(palette.template))
+    palette.setIsSavedToLocal(true)
   }
 
   const handleMouseMove = e => {
@@ -128,9 +129,12 @@ export default function Simulator() {
     <div className="simulator">
       <div className="tools">
         {/* <button disabled>导入</button> */}
-        <button onClick={handleExport} title="导出为json文件">导出</button>
-        <button onClick={handleExportTemplate} title="导出为返回json的函数">导出模版</button>
-        <button onClick={handleSaveToLocal} title="将当前编辑暂存到本地">暂存</button>
+        <button className="tool-button" onClick={handleExport} title="导出为json文件">导出</button>
+        <button className="tool-button" onClick={handleExportTemplate} title="导出为返回json的函数">导出模版</button>
+        <button className="tool-button" onClick={handleSaveToLocal} title="将当前编辑暂存到本地">
+          暂存
+          <i style={{display: palette.isSavedToLocal ? 'none' : 'block'}}></i>
+        </button>
         {/* <button disabled>复制</button> */}
       </div>
       <div className="device-switch">

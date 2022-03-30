@@ -18,7 +18,9 @@ export default function Index() {
   const [ pen, setPen ] = useState({})
   const [ template, setTemplate ] = useState(storage.getTemplate(project.name) || {})
   const [ groups, setGroups ] = useState(storage.getTemplate(project.name) || [])
+  const [ isSavedToLocal, setIsSavedToLocal ] = useState(true)
   const handleSetPalette = (value) => {
+    setIsSavedToLocal(false)
     setPalette({...value})
   }
   return (
@@ -31,7 +33,9 @@ export default function Index() {
         template,
         setTemplate,
         groups,
-        setGroups
+        setGroups,
+        isSavedToLocal,
+        setIsSavedToLocal
       }}>
         <div className="layout__left">
           <Simulator />
