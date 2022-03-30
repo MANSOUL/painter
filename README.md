@@ -13,6 +13,8 @@
 
 [点我来试试吧！](https://mansoul.github.io/painter/)
 
+![screenshot](./screenshot.png)
+
 ## 优势
 
 - 使用 `Painter` 的核心绘制库，在本工具中绘制出来的效果，和在小程序中几乎没有差异；
@@ -23,3 +25,10 @@
 - [x] 数据模版
 - [ ] 组合
 - [ ] `Painter` 没有脏矩形渲染，每次更新属性都需要重新绘制整个画布，也许未来有了后会提供拖动设置view的位置。
+
+## 开发
+
+1. `git clone https://github.com/MANSOUL/painter.git` 克隆仓库
+2. `npm install` 安装依赖
+3. `npm start` 运行开发环境
+4. `npm run build` 构建生产
