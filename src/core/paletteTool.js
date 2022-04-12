@@ -6,6 +6,7 @@
  * @Description: file content
  */
 import { cloneDeep, uniq } from 'lodash'
+import storage from './storage'
 
 const DEFAULT_VIEWS = {
   image: {
@@ -323,4 +324,14 @@ return ${stringify}
   })
   downloadBlobByLink(blob, `painter-${Date.now()}.js`)
   console.log(str)
+}
+
+export function importProject(projectName, jsonData) {
+  const data = JSON.parse(jsonData)
+  data.views.forEach(item => {
+    if (!item.id) {
+      item.id = `${item.type}_${Date.now()}_${Math.floor(Math.random() * 10000)}`
+    }
+  })
+  storage.set(projectName, data)
 }
