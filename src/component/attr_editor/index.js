@@ -164,6 +164,32 @@ export default function AttrEditor({
           ))
         }
       />
+      <FieldRelative
+        key={viewId + '30'}
+        label="距下"
+        value={viewCss.bottom}
+        desc="支持相对定位，示例: calc(id0.bottom + 10)"
+        id={viewId}
+        attr="css.bottom"
+        onChange={
+          (e) => handleSetCss('bottom', validateValue(
+            e.target.value, viewCss.bottom, 'bottom'
+          ))
+        }
+      />
+      <FieldRelative
+        key={viewId + '31'}
+        label="距右"
+        value={viewCss.right}
+        desc="支持相对定位，示例: calc(id0.right + id0.width + 10)"
+        id={viewId}
+        attr="css.right"
+        onChange={(e) =>
+          handleSetCss('right', validateValue(
+            e.target.value, viewCss.right, 'right'
+          ))
+        }
+      />
       {/* 公共属性 */}
       <FieldInput
         key={viewId + '17'}
