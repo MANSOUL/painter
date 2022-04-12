@@ -37,13 +37,16 @@ export default function Render({
     const canvas = ref.current
     const context = canvas.getContext('2d')
     const pen = addUnit(cloneDeep(palette.value))
+    let timer = -1
     Painter.clearPenCache()
     console.log('before draw:', JSON.parse(JSON.stringify(pen)))
     // draw
     new Painter.Pen(context, pen).paint(() => {
+      clearTimeout(timer)
       palette.setPen(pen)
       console.log('after draw:', JSON.parse(JSON.stringify(pen)))
     })
+    timer = setTimeout(() => palette.setPen(pen), 3000)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [palette.value])
 
