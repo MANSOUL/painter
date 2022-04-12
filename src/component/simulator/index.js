@@ -46,7 +46,7 @@ export default function Simulator() {
   const memorizedCallback = useCallback(() => {
     const rect = refDeviceWrapper.current.getBoundingClientRect()
     const top = rect.top
-    const left = rect.left + device.width + 40
+    const left = rect.left + Number(device.width) + 40
     setAttrEditor(a => ({
       ...a,
       css: {
