@@ -162,6 +162,11 @@ export function addUnit(palette, unit = 'px') {
   const handle = (obj) => {
     for (let key in obj) {
       if (obj.hasOwnProperty(key) && unitAttr.includes(key)) {
+        if (key === 'borderRadius' && obj[key]) {
+          const arr = obj[key].split(/\s+/)
+          obj[key] = arr.join(`${unit} `) + unit
+          continue
+        } 
         if (
           (typeof obj[key] === 'string' && obj[key].indexOf('%') > -1) 
           || !regNumber.test(obj[key])
